@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { HomePage, LoginPage, RegisterPage } from './pages';
+import { HomePage, LoginPage, RegisterPage, VideoCall } from './pages';
 import { PrivateRoute, ProtectedRoute } from './routes';
 
 function App() {
@@ -18,6 +18,14 @@ function App() {
         element={
           <ProtectedRoute>
             <LoginPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/video'
+        element={
+          <ProtectedRoute>
+            <VideoCall />
           </ProtectedRoute>
         }
       />
