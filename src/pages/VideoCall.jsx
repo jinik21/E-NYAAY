@@ -1,12 +1,14 @@
 import { createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
 import React, { useState, useEffect } from "react";
 import Video from "./Video";
+import {useParams} from 'react-router-dom'
 
 const config = { mode: "rtc", codec: "vp8" };
 const appId = "370cc8b63bac46d381f17915984b033d";
 const VideoCall = (props) => {
-  console.log(props);
-  const { sessionId } = props.match.params;
+  const match = useParams()
+  console.log(match)
+  const { sessionId } = match;
   const useClient = createClient(config);
   const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
   const [inCall, setInCall] = useState(true);
@@ -15,7 +17,7 @@ const VideoCall = (props) => {
   useEffect(() => {
     const init = async () => {
       let data = await fetch(
-        `http://localhost:3001/api/agora-call/token?channel=abcd`
+        `http://localhost:3001/api/agora-call/token?channel=${sessionId}`
       );
       data = await data.json();
       console.log(data);
@@ -24,7 +26,8 @@ const VideoCall = (props) => {
     init();
     setInCall(true);
   }, [sessionId]);
-  // const onClickHandler = () => {
+
+  console.log({inCall,token})
 
   return (
     <div>
@@ -37,8 +40,8 @@ const VideoCall = (props) => {
             token={token}
             inCall={inCall}
             setInCall={setInCall}
-            channelName="abcd"
-            sessionId="abcd"
+            channelName={sessionId}
+            sessionId={sessionId}
             history={props.history}
           />
         </div>
