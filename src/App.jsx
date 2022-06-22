@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import { HomePage, LoginPage, RegisterPage, VideoCall } from './pages';
 import { PrivateRoute, ProtectedRoute } from './routes';
+import Landing2 from './pages/landing/landing';
+import './App.css'
 
 function App() {
   return (
@@ -34,6 +36,14 @@ function App() {
         element={
           <ProtectedRoute>
             <RegisterPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/landing'
+        element={
+          <ProtectedRoute>
+            <Landing2 />
           </ProtectedRoute>
         }
       />
