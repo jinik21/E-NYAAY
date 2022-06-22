@@ -54,14 +54,16 @@ export const Navigation = (props) => {
             </li> */}
             <li class="nav-item">
               <a
+                href="/register"
                 className="fs-2 fw-bold page-scroll text-dark"
-                onClick={() => history.push("/registerdoc")}
+                onClick={() => history.push("/register")}
               >
                 Signup
               </a>
             </li>
             <li class="nav-item">
               <a
+                href = "login"
                 className="fs-2 fw-bold page-scroll text-dark"
                 onClick={() => history.push("/login")}
               >
