@@ -2,51 +2,53 @@ import { Routes, Route } from 'react-router-dom';
 import { HomePage, LoginPage, RegisterPage, VideoCall } from './pages';
 import { PrivateRoute, ProtectedRoute } from './routes';
 import Landing2 from './pages/landing/landing';
-import './App.css'
+import './App.css';
+import Dashboard from './Dashboard/layouts/FullLayout';
+import Starter from './Dashboard/views/Starter';
+import About from './Dashboard/views/About';
 
 function App() {
   return (
     <Routes>
       <Route
-        path='/'
+        exact path='/'
         element={
-          <PrivateRoute>
-            <HomePage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path='/login'
-        element={
-          <ProtectedRoute>
-            <LoginPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/call/:sessionId'
-        element={
-          <ProtectedRoute>
-            <VideoCall />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/register'
-        element={
-          <ProtectedRoute>
-            <RegisterPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/landing'
-        element={
-          <ProtectedRoute>
             <Landing2 />
-          </ProtectedRoute>
         }
       />
+      <Route
+        exact path='/login'
+        element={
+            <LoginPage />
+        }
+      />
+      <Route
+        exact path='/call/:sessionId'
+        element={
+            <VideoCall />
+        }
+      />
+      <Route
+        exact path='/register'
+        element={
+            <RegisterPage />
+        }
+      />
+      <Route
+        exact path='/landing'
+        element={
+            <Landing2 />
+        }
+      />
+      <Route
+        exact path='/dashboard'
+        element={
+            <Dashboard />
+        }
+      >
+        <Route exact path="/dashboard/starter" element={<Starter />} />
+        <Route exact path="/dashboard/about" element={<About />} />
+      </Route>
     </Routes>
   );
 }

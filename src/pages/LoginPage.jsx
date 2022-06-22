@@ -62,20 +62,21 @@ function LoginPage() {
   };
 
   const submitForm = async () => {
-    setValues({ ...values, submitButtonDisable: true });
-    try {
-      const data = {
-        email: values.email,
-        password: values.password,
-      };
-      const response = await API.post('/signin', data);
-      saveUser(response.data);
-      navigate('/', { replace: true });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setValues({ ...values, submitButtonDisable: false });
-    }
+    navigate('/dashboard/starter/', { replace: true });
+    // setValues({ ...values, submitButtonDisable: true });
+    // try {
+    //   const data = {
+    //     email: values.email,
+    //     password: values.password,
+    //   };
+    //   const response = await API.post('/signin', data);
+    //   saveUser(response.data);
+    //   navigate('/dashboard/starter', { replace: true });
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setValues({ ...values, submitButtonDisable: false });
+    // }
   };
 
   return (

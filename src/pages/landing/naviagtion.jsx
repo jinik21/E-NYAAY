@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 
 export const Navigation = (props) => {
-  const history = useNavigate();
+  let navigate = useNavigate();
   return (
     <nav
       id="menu"
-      className="navbar navbar-expand-lg navbar-light bg-light"
+      className=" navbar navbar-expand-lg navbar-light bg-light"
       style={{
         width: "100%",
       }}
@@ -55,7 +55,7 @@ export const Navigation = (props) => {
             <li class="nav-item">
               <a
                 className="fs-2 fw-bold page-scroll text-dark"
-                onClick={() => history.push("/registerdoc")}
+                onClick={() => navigate("../register", { replace: true })}
               >
                 Signup
               </a>
@@ -63,7 +63,7 @@ export const Navigation = (props) => {
             <li class="nav-item">
               <a
                 className="fs-2 fw-bold page-scroll text-dark"
-                onClick={() => history.push("/login")}
+                onClick={() => navigate("../login", { replace: true })}
               >
                 Login
               </a>
