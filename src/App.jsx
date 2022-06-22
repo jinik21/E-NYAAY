@@ -24,7 +24,7 @@ function App() {
         }
       />
       <Route
-        path='/video'
+        path='/call/:sessionId'
         element={
           <ProtectedRoute>
             <VideoCall />
