@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import firebase from "./firebaseconfig";
 import { getStorage } from "firebase/storage";
 import Controls from "./Controls";
-// import AgoraRTM from "agora-rtm-sdk";
-// import useAgoraRtm from "./useAgoraRtm";
-// const clientRTM = AgoraRTM.createInstance("370cc8b63bac46d381f17915984b033d");
+// // import AgoraRTM from "agora-rtm-sdk";
+// // import useAgoraRtm from "./useAgoraRtm";
+// // const clientRTM = AgoraRTM.createInstance("370cc8b63bac46d381f17915984b033d");
 
 const storageRef = getStorage(firebase);
 
@@ -25,18 +25,18 @@ const Video = ({
   const [text, setText] = useState("");
   const [displayText, setDisplayText] = useState([""]);
   const client = useClient();
-  // const { message, sendMessage } = useAgoraRtm(
-  //   channelName,
-  //   sessionId,
-  //   clientRTM
-  // );
+//   // const { message, sendMessage } = useAgoraRtm(
+//   //   channelName,
+//   //   sessionId,
+//   //   clientRTM
+//   // );
 
-  // var SpeechRecognition =
-  //   window.webkitSpeechRecognition || window.speechRecognition;
-  // var recognition = new SpeechRecognition();
-  // recognition.interimResults = false;
-  // recognition.continuous = true;
-  // RTM Global Vars
+//   // var SpeechRecognition =
+//   //   window.webkitSpeechRecognition || window.speechRecognition;
+//   // var recognition = new SpeechRecognition();
+//   // recognition.interimResults = false;
+//   // recognition.continuous = true;
+//   // RTM Global Vars
 
   const { ready, tracks } = useMicrophoneAndCameraTracks();
 
@@ -57,51 +57,51 @@ const Video = ({
   //   };
   // }, []);
 
-  useEffect(() => {
-    const init = async (name) => {
-      client.on("user-published", async (user, mediaType) => {
-        await client.subscribe(user, mediaType);
-        console.log("subscribe success");
-        if (mediaType === "video") {
-          setUsers((prevUsers) => {
-            return [user];
-          });
-          console.log(users);
-        }
-        if (mediaType === "audio" && user) {
-          user.audioTrack?.play();
-        }
-        // recognition.start();
-      });
+  // useEffect(() => {
+  //   // const init = async (name) => {
+  //   //   client.on("user-published", async (user, mediaType) => {
+  //   //     await client.subscribe(user, mediaType);
+  //   //     console.log("subscribe success");
+  //   //     if (mediaType === "video") {
+  //   //       setUsers((prevUsers) => {
+  //   //         return [user];
+  //   //       });
+  //   //       console.log(users);
+  //   //     }
+  //   //     if (mediaType === "audio" && user) {
+  //   //       user.audioTrack?.play();
+  //   //     }
+  //   //     // recognition.start();
+  //   //   });
 
-      client.on("user-unpublished", (user, type) => {
-        console.log("unpublished", user, type);
-        if (type === "audio") {
-          user.audioTrack?.stop();
-        }
-        if (type === "video") {
-          setUsers((prevUsers) => {
-            return prevUsers.filter((User) => User.uid !== user.uid);
-          });
-        }
-      });
+  //   //   client.on("user-unpublished", (user, type) => {
+  //   //     console.log("unpublished", user, type);
+  //   //     if (type === "audio") {
+  //   //       user.audioTrack?.stop();
+  //   //     }
+  //   //     if (type === "video") {
+  //   //       setUsers((prevUsers) => {
+  //   //         return prevUsers.filter((User) => User.uid !== user.uid);
+  //   //       });
+  //   //     }
+  //   //   });
 
-      client.on("user-left", (user) => {
-        console.log("leaving", user);
-        setUsers((prevUsers) => {
-          return prevUsers.filter((User) => User.uid !== user.uid);
-        });
-      });
+  //   //   client.on("user-left", (user) => {
+  //   //     console.log("leaving", user);
+  //   //     setUsers((prevUsers) => {
+  //   //       return prevUsers.filter((User) => User.uid !== user.uid);
+  //   //     });
+  //   //   });
 
-      await client.join(appId, name, token, null);
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
-      setStart(true);
-    };
-    if (ready && tracks) {
-      console.log("init ready");
-      init(channelName);
-    }
-  }, [channelName, ready, tracks, client, appId, token, users]);
+  //   //   await client.join(appId, name, token, null);
+  //   //   if (tracks) await client.publish([tracks[0], tracks[1]]);
+  //   //   setStart(true);
+  //   // };
+  //   if (ready && tracks) {
+  //     console.log("init ready");
+  //     init(channelName);
+  //   }
+  // }, [channelName, ready, tracks, client, appId, token, users]);
   // const generateReport = async () => {
   //   console.log(text);
   //   let data = await fetch(`http://localhost:3001/api/summary`, {
@@ -165,7 +165,7 @@ const Video = ({
               client={client}
               sessionId={sessionId}
               history={history}
-              generateReport={generateReport}
+              // generateReport={generateReport}
             />
           )}
           {users.length > 0 &&
