@@ -157,7 +157,7 @@ const Video = ({
             left: 0,
           }}
         >
-          {/* {ready && tracks && (
+          {ready && tracks && (
             <Controls
               tracks={tracks}
               setStart={setStart}
@@ -167,7 +167,7 @@ const Video = ({
               history={history}
               generateReport={generateReport}
             />
-          )} */}
+          )}
           {users.length > 0 &&
             users.map((user, i) => {
               console.log(users);
@@ -188,18 +188,6 @@ const Video = ({
             })}
         </AgoraVideoPlayer>
       )}
-      {/* <div
-        style={{
-          fontSize: "30px",
-          position: "absolute",
-          bottom: "10%",
-          left: 0,
-          marginLeft: "20px",
-          backgroundColor: "#000",
-        }}
-      >
-        <p style={{ color: "#fff" }}>{message}</p>
-      </div> */}
     </div>
   );
 };
