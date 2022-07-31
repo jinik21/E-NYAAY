@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 
 export const Navigation = (props) => {
-  const history = useNavigate();
+  let navigate = useNavigate();
   return (
     <nav
       id="menu"
-      className="navbar navbar-expand-lg navbar-light bg-light"
+      className=" navbar navbar-expand-lg navbar-light bg-light"
       style={{
         width: "100%",
       }}
@@ -53,22 +53,34 @@ export const Navigation = (props) => {
               </a>
             </li> */}
             <li class="nav-item">
-              <a
-                href="/register"
-                className="fs-2 fw-bold page-scroll text-dark"
-                onClick={() => history.push("/register")}
-              >
-                Signup
-              </a>
+              <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav">
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle fs-2 fw-bold page-scroll text-dark" href="/" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Sign Up
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                      <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/register">Lawyer</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
             </li>
             <li class="nav-item">
-              <a
-                href = "login"
-                className="fs-2 fw-bold page-scroll text-dark"
-                onClick={() => history.push("/login")}
-              >
-                Login
-              </a>
+              <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav">
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle fs-2 fw-bold page-scroll text-dark" href="/" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Login
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                      <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/login_lawyer">Lawyer</a></li>
+                      <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/login">Judge</a></li>
+                      <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/login">Admin</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>

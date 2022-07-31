@@ -41,7 +41,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(1),
 }));
 
-function LoginPage() {
+function LoginLawyerPage() {
   const classes = {};
   // const dispatch
   const [values, setValues] = React.useState({
@@ -62,7 +62,7 @@ function LoginPage() {
   };
 
   const submitForm = async () => {
-    navigate('/dashboard/starter/', { replace: true });
+    navigate('/dashboardlawyer/starter/', { replace: false });
     // setValues({ ...values, submitButtonDisable: true });
     // try {
     //   const data = {
@@ -167,4 +167,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default LoginLawyerPage;
