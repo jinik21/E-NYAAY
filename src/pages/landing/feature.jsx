@@ -17,15 +17,15 @@ export const Features = (props) => {
         <div className="col-md-10 col-md-offset-1 section-title">
           <h2>Features</h2>
         </div>
-        <div>
+        <div className="container-fluid d-flex justify-content-center align-items-center">
           <div className="col-md-2">
             {" "}
             <img
               src={img6}
-              alt = ""
+              alt=""
               style={{
-                height: "80%",
-                width: "80%",
+                height: "95%",
+                width: "95%",
               }}
             />
             <h3>{"Video Call"}</h3>
@@ -35,20 +35,20 @@ export const Features = (props) => {
             {" "}
             <img
               src={img5}
-              alt = ""
+              alt=""
               style={{
-                height: "80%",
-                width: "80%",
+                height: "95%",
+                width: "95%",
               }}
             />
             <h3>{"Session Scheduler"}</h3>
             <p>{"Notification system for reminder to lawyer"}</p>
           </div>
-          <div className="col-md-2">
+          {/* <div className="col-md-2">
             {" "}
             <img
               src={img2}
-              alt = ""
+              alt=""
               style={{
                 height: "80%",
                 width: "80%",
@@ -60,8 +60,8 @@ export const Features = (props) => {
                 "Hassle-free way to indulge in a session with automatic notes transcription"
               }
             </p>
-          </div>
-        {/* <div className="col-md-2">
+          </div> */}
+          {/* <div className="col-md-2">
             {" "}
             <img
             src={img3}
@@ -77,10 +77,10 @@ export const Features = (props) => {
             {" "}
             <img
               src={img1}
-              alt = ""
+              alt=""
               style={{
-                height: "80%",
-                width: "80%",
+                height: "95%",
+                width: "95%",
               }}
             />
             <h3>{"Citiation Recommendation"}</h3>
@@ -90,10 +90,10 @@ export const Features = (props) => {
             {" "}
             <img
               src={img4}
-              alt = ""
+              alt=""
               style={{
-                height: "80%",
-                width: "80%",
+                height: "95%",
+                width: "95%",
               }}
             />
             <h3>{"Decentralized storage of Evidence"}</h3>

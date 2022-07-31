@@ -8,15 +8,32 @@ console.log("Build folder deleted.");
 
 const contractPath = path.resolve(__dirname, "contracts", "Court.sol");
 const contractContent = fs.readFileSync(contractPath, "utf-8");
-const output = solc.compile(contractContent, 1).contracts;
+
+var input = {
+  language: "Solidity",
+  sources: {
+    Court: {
+      content: contractContent,
+    },
+  },
+  settings: {
+    outputSelection: {
+      "*": {
+        "*": ["*"],
+      },
+    },
+  },
+};
+
+const output = JSON.parse(solc.compile(JSON.stringify(input))).contracts;
 
 fs.ensureDirSync(buildPath);
 console.log("Build folder created.");
 
-for (let contract in output) {
+for (let contract in output["Court"]) {
   fs.outputJSONSync(
-    path.resolve(buildPath, contract.substring(1) + ".json"),
-    output[contract]
+    path.resolve(buildPath, contract + ".json"),
+    output["Court"][contract]
   );
-  console.log(`${contract.substring(1)}.json created in builds folder.`);
+  console.log(`${contract}.json created in builds folder.`);
 }
