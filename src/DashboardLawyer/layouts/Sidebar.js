@@ -39,7 +39,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="bg-dark" style={{height:"100vh"}}>
+    <div className="bg-dark" style={{height:"150vh",width:"35vh"}}>
       <div className="d-flex">
         <Button
           color="white"
