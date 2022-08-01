@@ -14,18 +14,24 @@ const provider = new HDWalletProvider(
 const web3 = new Web3(provider);
 
 let accounts;
-let courtContract;
 
 const deploy = async () => {
   accounts = await web3.eth.getAccounts();
   let transactionHashFile;
   fs.removeSync(buildPath);
   fs.ensureFileSync(buildPath);
-  courtContract = await new web3.eth.Contract(courtCompiled.abi)
+  new web3.eth.Contract(courtCompiled.abi)
     .deploy({ data: "0x" + courtCompiled.evm.bytecode.object })
-    .send({ from: accounts[0], gas: "3000000" }, (err, transactionHash) => {
-      transactionHashFile = transactionHash;
-    })
+    .send(
+      {
+        from: accounts[0],
+        gas: web3.utils.toHex(8000000),
+        gasPrice: web3.utils.toHex(web3.utils.toWei("30", "gwei")),
+      },
+      (err, transactionHash) => {
+        transactionHashFile = transactionHash;
+      }
+    )
     .then((newContractInstance) => {
       console.log(
         "Deployed Contract Address : ",

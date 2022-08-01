@@ -4,7 +4,7 @@ import factory from "../ethereum/factory";
 function Blockchain() {
   useEffect(() => {
     const fetchData = async () => {
-      const data = factory.methods.getCasesCount().call();
+      const data = await factory.methods.getCasesCount().call();
       console.log(data);
     };
     fetchData();

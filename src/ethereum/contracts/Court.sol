@@ -18,6 +18,7 @@ contract Court{
         string phoneNo;
         string email;
         string regno;
+        string pubkey;
         mapping(uint => string) encryptedkeys;
     }
 
@@ -27,6 +28,7 @@ contract Court{
         string phoneNo;
         string email;
         string regno;
+        string pubkey;
         mapping(uint => string) encryptedkeys;
     }
 
@@ -38,40 +40,51 @@ contract Court{
         string party2;
         string description;
         string[] filesHashes;
+        string[] fileTypes;
     }
 
-    Lawyer[] lawyers;
-    Judge[] judges;
-    Case[] cases;
+    Lawyer[] public lawyers;
+    Judge[] public judges;
+    Case[] public cases;
 
     event lawyerRegistered(uint _lawyerId);
     event caseRegistered(uint _caseId);
     event judgeRegistered(uint _judgeId);
 
-    function registerLawyer(string memory _name, string memory _phone, string memory _email, address _addr, string memory _regno) public {
-        Lawyer memory l = Lawyer(_addr,_name,_phone,_email,_regno);
+    function registerLawyer(string memory _name, string memory _phone, string memory _email, address _addr, string memory _regno, string memory _pubkey) public {
+        Lawyer memory l = Lawyer(_addr,_name,_phone,_email,_regno,_pubkey);
         lawyers.push(l);
         emit lawyerRegistered(lawyers.length-1);
     }
 
-    function registerJudge(string memory _name, string memory _phone, string memory _email, address _addr, string memory _regno) public {
-        Judge memory j = Judge(_addr,_name,_phone,_email,_regno);
+    function registerJudge(string memory _name, string memory _phone, string memory _email, address _addr, string memory _regno, string memory _pubkey) public onlyOwner {
+        Judge memory j = Judge(_addr,_name,_phone,_email,_regno,_pubkey);
         judges.push(j);
         emit judgeRegistered(judges.length-1);
     }
 
     function registerCase(uint _lawyer1,uint _lawyer2,uint _judgeId,string memory _party1,string memory _party2,string memory _description) public onlyOwner {
         string[] memory fileHash;
-        Case memory c = Case(lawyers[_lawyer1].addr,lawyers[_lawyer2].addr,judges[_judgeId].addr,_party1,_party2,_description,fileHash);
+        string[] memory fileType;
+        Case memory c = Case(lawyers[_lawyer1].addr,lawyers[_lawyer2].addr,judges[_judgeId].addr,_party1,_party2,_description,fileHash,fileType);
         cases.push(c);
         emit caseRegistered(cases.length-1);
     }
 
-    function uploadEvidence(uint _caseId,string memory fileHash) onlyOwner public {
-        require(keccak256(bytes(fileHash)) != "");
-        cases[_caseId].filesHashes.push(fileHash);
+    // evidence functions
+    function uploadEvidence(uint _caseId,string memory _fileHash,string memory _fileType) onlyOwner public {
+        require(keccak256(abi.encodePacked(_fileHash)) != keccak256(bytes("")) && keccak256(abi.encodePacked(_fileType)) != keccak256(bytes("")));
+        cases[_caseId].filesHashes.push(_fileHash);
+        cases[_caseId].fileTypes.push(_fileType);
+    }
+    function getEvidenceCount(uint _caseId) public view returns(uint) {
+        return cases[_caseId].filesHashes.length;
+    }
+    function getEvidence(uint _caseId, uint _evidenceNo) public view returns(string memory FileHash,string memory FileType) {
+        return (cases[_caseId].filesHashes[_evidenceNo],cases[_caseId].fileTypes[_evidenceNo]);
     }
 
+    // keys functions
     function addEncryptedKey(bool _isLawyer,uint _ljId,uint _caseId,string memory _key) onlyOwner public {
         if(_isLawyer){
             lawyers[_ljId].encryptedkeys[_caseId] = _key;
@@ -80,7 +93,7 @@ contract Court{
         }
     }
 
-    function getEncryptedKey(bool _isLawyer,uint _ljId,uint _caseId) onlyOwner public view returns(string memory) {
+    function getEncryptedKey(bool _isLawyer,uint _ljId,uint _caseId) public view returns(string memory) {
         if(_isLawyer){
             return lawyers[_ljId].encryptedkeys[_caseId];
         }else{
@@ -118,13 +131,7 @@ contract Court{
         return(cases[_caseId].judge, cases[_caseId].lawyer1, cases[_caseId].lawyer2);
     }
 
-    // utility functions
-    function getEvidenceCount(uint _caseId) public view returns(uint) {
-        return cases[_caseId].filesHashes.length;
-    }
-    function getEvidence(uint _caseId, uint _evidenceNo) public view returns(string memory FileHash) {
-        return cases[_caseId].filesHashes[_evidenceNo];
-    }
+    
     function getLawyersCount() public view returns (uint) {
         return lawyers.length;
     }

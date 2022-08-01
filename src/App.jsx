@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import web3 from "./ethereum/web3";
 import { HomePage, LoginPage, RegisterPage, VideoCall } from "./pages";
 import { PrivateRoute, ProtectedRoute } from "./routes";
 import Landing2 from "./pages/landing/landing";
