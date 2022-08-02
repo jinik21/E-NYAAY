@@ -56,6 +56,7 @@ function App() {
           element={<AboutLawyer />}
         />
       </Route>
+      <Route exact path="/block" element={<Blockchain />} />
     </Routes>
   );
 }

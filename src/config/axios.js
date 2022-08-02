@@ -1,11 +1,15 @@
-import axios from 'axios';
-
-const baseURL = 'http://localhost:3001/api';
+import axios from "axios";
+import credentials from "../middleware/credentials";
+const baseURL = "https://api.moinet.io/moibit/v1";
 
 const API = axios.create({
   baseURL,
   headers: {
-    'Content-Type': 'application/json',
+    nonce: credentials.nonce,
+    signature: credentials.signature,
+    developerKey: credentials.developerKey,
+    networkID: credentials.networkId,
+    "Content-Type": "application/json",
   },
 });
 
