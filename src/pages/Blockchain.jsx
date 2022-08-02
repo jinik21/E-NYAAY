@@ -20,9 +20,9 @@ function Blockchain() {
 
     const string = JSON.stringify(encryptedFileString);
     const blob = new Blob([string], { type: "text/plain" });
-    const file = new File([blob], "vishal", { type: "text/plain" });
+    const file = new File([blob], "filename", { type: "text/plain" });
     formData.append("file", file);
-    formData.append("fileName", "vishal");
+    formData.append("fileName", "filename");
     const { data } = await moibit.post("/writefile", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -60,7 +60,7 @@ function Blockchain() {
   };
   const getFile = async () => {
     const { data } = await moibit.post("/readfile", {
-      fileName: "vishal",
+      fileName: "filename",
       version: 1,
     });
     const encryptedObject = cipher.parse(data);
