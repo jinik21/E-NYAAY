@@ -61,7 +61,7 @@ function Blockchain() {
   const getFile = async () => {
     const { data } = await moibit.post("/readfile", {
       fileName: "filename",
-      version: 1,
+      version: 3,
     });
     const encryptedObject = cipher.parse(data);
     decryptData(privateKey, encryptedObject).then((data) => {

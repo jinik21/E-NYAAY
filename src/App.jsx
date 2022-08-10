@@ -19,6 +19,8 @@ import CaseQueries from "./DashboardLawyer/views/CaseQueries";
 import CaseTrack from "./DashboardLawyer/views/CaseTrack";
 import AboutLawyer from "./DashboardLawyer/views/About";
 import Blockchain from "./pages/Blockchain";
+import Profile from "./DashboardLawyer/views/profile";
+import Chat from "./DashboardLawyer/views/chat";
 
 function App() {
   return (
@@ -47,13 +49,13 @@ function App() {
         <Route
           exact
           path="/dashboardlawyer/queries"
-          element={<CaseQueries />}
+          element={<Chat />}
         />
         <Route exact path="/dashboardlawyer/track" element={<CaseTrack />} />
         <Route
           exact
           path="/dashboardlawyer/profile"
-          element={<AboutLawyer />}
+          element={<Profile />}
         />
       </Route>
       <Route exact path="/block" element={<Blockchain />} />
