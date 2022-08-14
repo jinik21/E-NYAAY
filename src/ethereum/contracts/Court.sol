@@ -46,28 +46,48 @@ contract Court{
     Lawyer[] public lawyers;
     Judge[] public judges;
     Case[] public cases;
+    mapping(address => uint) public addressToIndex;
+    mapping(address => uint[]) public addressToCase;
 
     event lawyerRegistered(uint _lawyerId);
     event caseRegistered(uint _caseId);
     event judgeRegistered(uint _judgeId);
 
-    function registerLawyer(string memory _name, string memory _phone, string memory _email, address _addr, string memory _regno, string memory _pubkey) public {
+    function registerLawyer(string memory _name, string memory _phone, string memory _email, address _addr, string memory _regno, string memory _pubkey) public onlyOwner {
         Lawyer memory l = Lawyer(_addr,_name,_phone,_email,_regno,_pubkey);
         lawyers.push(l);
+        addressToIndex[_addr] = lawyers.length-1;
         emit lawyerRegistered(lawyers.length-1);
     }
 
     function registerJudge(string memory _name, string memory _phone, string memory _email, address _addr, string memory _regno, string memory _pubkey) public onlyOwner {
         Judge memory j = Judge(_addr,_name,_phone,_email,_regno,_pubkey);
         judges.push(j);
+        addressToIndex[_addr] = judges.length-1;
         emit judgeRegistered(judges.length-1);
     }
 
-    function registerCase(uint _lawyer1,uint _lawyer2,uint _judgeId,string memory _party1,string memory _party2,string memory _description) public onlyOwner {
+    function registerCase(address lawyer1Addr,address lawyer2Addr,address judgeAddr,string memory _party1,string memory _party2,string memory _description) public onlyOwner {
         string[] memory fileHash;
         string[] memory fileType;
-        Case memory c = Case(lawyers[_lawyer1].addr,lawyers[_lawyer2].addr,judges[_judgeId].addr,_party1,_party2,_description,fileHash,fileType);
+        Case memory c = Case(lawyer1Addr,lawyer2Addr,judgeAddr,_party1,_party2,_description,fileHash,fileType);
         cases.push(c);
+
+        // for lawyer1
+        uint[] storage casesList = addressToCase[lawyer1Addr];
+        casesList.push(cases.length-1);
+        addressToCase[lawyer1Addr] = casesList;
+
+        // for lawyer2
+        uint[] storage casesList2 = addressToCase[lawyer2Addr];
+        casesList2.push(cases.length-1);
+        addressToCase[lawyer2Addr] = casesList2;
+
+        // for judge
+        uint[] storage casesList3 = addressToCase[judgeAddr];
+        casesList3.push(cases.length-1);
+        addressToCase[judgeAddr] = casesList3;
+
         emit caseRegistered(cases.length-1);
     }
 
@@ -84,26 +104,14 @@ contract Court{
         return (cases[_caseId].filesHashes[_evidenceNo],cases[_caseId].fileTypes[_evidenceNo]);
     }
 
-    // keys functions
-    function addEncryptedKey(bool _isLawyer,uint _ljId,uint _caseId,string memory _key) onlyOwner public {
-        if(_isLawyer){
-            lawyers[_ljId].encryptedkeys[_caseId] = _key;
-        }else{
-            judges[_ljId].encryptedkeys[_caseId] = _key;
-        }
+    function getUserIdx(address _addr) public view returns(uint idx) {
+        return addressToIndex[_addr];
     }
 
-    function getEncryptedKey(bool _isLawyer,uint _ljId,uint _caseId) public view returns(string memory) {
-        if(_isLawyer){
-            return lawyers[_ljId].encryptedkeys[_caseId];
-        }else{
-            return judges[_ljId].encryptedkeys[_caseId];
-        }
-    }
-
-    function getLawyerInfo(uint _lawyerId) public view returns (
+    function getLawyerInfo(address _lawyerAddr) public view returns (
         address addr, string memory name, string memory phoneNo, string memory email, string memory regno
     ) {
+        uint _lawyerId = addressToIndex[_lawyerAddr];
         Lawyer memory l = lawyers[_lawyerId];
         return (
             l.addr,
@@ -114,9 +122,10 @@ contract Court{
         );
     }
 
-    function getJudgeInfo(uint _judgeId) public view returns (
+    function getJudgeInfo(address _judgeAddr) public view returns (
         address addr, string memory name, string memory phoneNo, string memory email, string memory regno
     ) {
+        uint _judgeId = addressToIndex[_judgeAddr];
         Judge memory j = judges[_judgeId];
         return (
             j.addr,
@@ -125,6 +134,10 @@ contract Court{
             j.email,
             j.regno
         );
+    }
+
+    function getLawyerCases(address _addr) public view returns(uint[] memory casesIdx){
+        return addressToCase[_addr];
     }
 
     function getCaseAddresses(uint _caseId) public view returns(address judge, address lawyer1, address lawyer2) {
