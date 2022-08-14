@@ -8,7 +8,7 @@ import {
   hash,
 } from "eth-crypto";
 
-function Blockchain() {
+function Blockchain({ account, court }) {
   const [file, setFile] = useState(null);
   const [encryptedFileString, setEncryptedFileString] = useState("");
   const pubKey =
