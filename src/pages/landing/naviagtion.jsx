@@ -76,7 +76,7 @@ export const Navigation = (props) => {
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                       <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/login_lawyer">Lawyer</a></li>
                       <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/login">Judge</a></li>
-                      <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/login">Admin</a></li>
+                      <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/login_admin">Admin</a></li>
                     </ul>
                   </li>
                 </ul>

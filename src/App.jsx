@@ -3,6 +3,7 @@ import {
   HomePage,
   LoginPage,
   LoginLawyerPage,
+  LoginAdminPage,
   RegisterPage,
   VideoCall,
 } from "./pages";
@@ -54,6 +55,11 @@ function App() {
         exact
         path="/login_lawyer"
         element={<LoginLawyerPage passable={state} />}
+      />
+      <Route
+        exact
+        path="/login_admin"
+        element={<LoginAdminPage passable={state} />}
       />
       <Route
         exact
