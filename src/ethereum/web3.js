@@ -1,15 +1,18 @@
 import Web3 from "web3";
+import MetaMaskOnboarding from "@metamask/onboarding";
 
 let web3;
+const forwarderOrigin = "http://localhost:3000";
 
 if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
   window.ethereum.request({ method: "eth_requestAccounts" });
   web3 = new Web3(window.ethereum);
 } else {
-  const provider = new Web3.providers.HttpProvider(
-    "https://rinkeby.infura.io/v3/bc9645c89d7c408da28a4cd3b84b91c3"
-  );
-  web3 = new Web3(provider);
+  const res = window.confirm("Please install metamask to continue!");
+  if (res) {
+    const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
+    onboarding.startOnboarding();
+  }
 }
 
 export default web3;
