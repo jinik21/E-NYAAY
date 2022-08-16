@@ -16,6 +16,7 @@ import PageHeroImage from '../components/PageHeroImage';
 import API from '../config/axios';
 import { saveUser } from '../utils/user';
 import "../models/states"
+import Axios from 'axios';
 
 const Container = styled(Grid)(({ theme }) => ({
   height: '100vh',
@@ -45,13 +46,13 @@ const CustomButton = styled(Button)(({ theme }) => ({
 
 function RegisterPage() {
   const [values, setValues] = React.useState({
-    password: '',
-    email: '',
-    fullName: '',
-    mobile: '',
-    barRegistrationNumber: '',
-    state:'Delhi',
-    region:'',
+    name: "",
+    email: "",
+    phone: "",
+    barNo: "",
+    city: "",
+    state: "",
+    password: "",
     showPassword: false,
     submitButtonDisable: false,
   });
@@ -65,26 +66,51 @@ function RegisterPage() {
     setValues({ ...values, showPassword: !values.showPassword });
   };
 
-  const submitForm = async () => {
+  const submitForm = async (e) => {
     setValues({ ...values, submitButtonDisable: true });
-
+    e.preventDefault();
     try {
-      const data = {
-        name: values.fullName,
+    //   const result = await Axios.post('http://localhost:3001/lawyer/signup',{
+    //     name: values.name,
+    //     email: values.email,
+    //     password: values.password,
+    //     phone: values.phone,
+    //     barNo: values.barNo,
+    //     state:values.state,
+    //     city:values.city,
+    //   })
+    //   console.log(result);
+      fetch("http://localhost:3001/lawyer/signup", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        name: values.name,
         email: values.email,
-        mobile: values.mobile,
-        barRegistrationNumber: values.bar,
-        state:values.state,
-        region:values.city,
         password: values.password,
-      };
-      const response = await API.post('/signup', data);
-      saveUser(response.data);
-      navigate('/', { replace: true });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setValues({ ...values, submitButtonDisable: false });
+        phone: values.phone,
+        barNo: values.barNo,
+        state:values.state,
+        city:values.city,
+      }),
+    })
+      .then((response) => response.json())
+      .then((user) => {
+
+        console.log(user);
+        navigate("/login_lawyer", {
+          replace: false,
+          state: {
+            user: user,
+            email: values.email,
+            password: values.password
+          },
+        });
+      }).catch((e) => {
+        console.log(e);
+        alert(e.message);
+      })
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -109,10 +135,10 @@ function RegisterPage() {
                 autoComplete='off'
                 id='outlined-adornment-fullName'
                 label='Full Name'
-                value={values.fullName}
-                onChange={handleChange('fullName')}
+                value={values.name}
+                onChange={handleChange('name')}
                 inputProps={{
-                  'aria-label': 'full name',
+                  'aria-label': 'fullName',
                 }}
                 labelWidth={65}
                 fullWidth
@@ -135,12 +161,12 @@ function RegisterPage() {
             <Grid item>
               <TextInput
                 autoComplete='off'
-                id='outlined-adornment-fullName'
+                id='outlined-adornment-mobile'
                 label='Mobile Number'
-                value={values.mobile}
-                onChange={handleChange('mobile')}
+                value={values.phone}
+                onChange={handleChange('phone')}
                 inputProps={{
-                  'aria-label': 'full name',
+                  'aria-label': 'mobile',
                 }}
                 labelWidth={65}
                 fullWidth
@@ -149,12 +175,12 @@ function RegisterPage() {
             <Grid item>
               <TextInput
                 autoComplete='off'
-                id='outlined-adornment-fullName'
+                id='outlined-adornment-barRegistrationNumber'
                 label='Bar registration number'
-                value={values.barRegistrationNumber}
-                onChange={handleChange('barRegistrationNumber')}
+                value={values.barNo}
+                onChange={handleChange('barNo')}
                 inputProps={{
-                  'aria-label': 'full name',
+                  'aria-label': 'barRegistrationNumber',
                 }}
                 labelWidth={65}
                 fullWidth
@@ -208,12 +234,12 @@ function RegisterPage() {
             <Grid item>
               <TextInput
                 autoComplete='off'
-                id='outlined-adornment-fullName'
+                id='outlined-adornment-city'
                 label='District/ City/ Region'
                 value={values.city}
                 onChange={handleChange('city')}
                 inputProps={{
-                  'aria-label': 'full name',
+                  'aria-label': 'city',
                 }}
                 labelWidth={65}
                 fullWidth

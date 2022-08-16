@@ -15,6 +15,7 @@ import bg1 from "../assets/images/bg/bg1.jpg";
 import bg2 from "../assets/images/bg/bg2.jpg";
 import bg3 from "../assets/images/bg/bg3.jpg";
 import bg4 from "../assets/images/bg/bg4.jpg";
+import Tilt from "react-parallax-tilt";
 
 const BlogData = [
   {
@@ -87,20 +88,20 @@ const CaseTrack = () => {
   return (
     <div>
       <h5 className="mb-3">All Cases</h5>
-      <Row>
-        {BlogData.map((blg, index) => (
-          <Col sm="6" lg="6" xl="3" key={index}>
-            <Blog
-              image={blg.image}
-              title={blg.title}
-              subtitle={blg.subtitle}
-              text={blg.description}
-              color={blg.btnbg}
-              style={{marginBottom:"10%"}}
-            />
-          </Col>
-        ))}
-      </Row>
+      <div className="row">
+                  {BlogData.map((ele,i) => (
+                    <div key={i} className="col-xl-6 col-sm-12 py-2">
+                      <div className="ses-info">
+                        <h1>{ele.title}</h1>
+                        {/* {ele.status==="1"?(<p style={{color:'green'}}>Accepted</p>):
+                        (ele.status==="-1"?(<p style={{color:'red'}}>Rejected</p>):(<p style={{color:'#FFAF33'}}>Pending</p>))} */}
+                        <p>{ele.subtitle}</p>
+                        <p>{ele.btnbg}</p>
+                        <p>{ele.description}</p>
+                      </div>
+                  </div>
+                  ))}
+                </div>
     </div>
   );
 };

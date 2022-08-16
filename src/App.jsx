@@ -16,6 +16,7 @@ import Starter from "./Dashboard/views/Starter";
 import About from "./Dashboard/views/About";
 import StarterLawyer from "./DashboardLawyer/views/Starter";
 import SubmitCase from "./DashboardLawyer/views/SubmitCase";
+import CaseLink from "./DashboardLawyer/views/CaseLink";
 import CaseQueries from "./DashboardLawyer/views/CaseQueries";
 import CaseTrack from "./DashboardLawyer/views/CaseTrack";
 import AboutLawyer from "./DashboardLawyer/views/About";
@@ -98,6 +99,11 @@ function App() {
           exact
           path="/dashboardlawyer/submitcase"
           element={<SubmitCase passable={state} />}
+        />
+        <Route
+          exact
+          path="/dashboardlawyer/link"
+          element={<CaseLink passable={state} />}
         />
         <Route
           exact

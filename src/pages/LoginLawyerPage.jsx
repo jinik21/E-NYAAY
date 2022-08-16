@@ -7,6 +7,7 @@ import {
   styled,
   TextField,
   Typography,
+  alertTitleClasses,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
@@ -45,7 +46,8 @@ function LoginLawyerPage({ passable }) {
   const classes = {};
   // const dispatch
   const [values, setValues] = React.useState({
-    caseId: "",
+    email: "",
+    password:""
   });
 
   const navigate = useNavigate();
@@ -57,41 +59,36 @@ function LoginLawyerPage({ passable }) {
   const submitForm = async (e) => {
     e.preventDefault();
     try {
-      const res = await loginUser();
-      console.log(res);
-      navigate("/dashboardlawyer/starter/", {
-        replace: false,
-        state: {
-          user: res,
-          caseId: values.caseId,
-        },
-      });
+      fetch("http://localhost:3001/lawyer/signin", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+      }),
+    })
+      .then((response) => response.json())
+      .then((user) => {
+        console.log(user.token);
+        const userInfo = {
+          token: user.token,
+          email: user.email,
+          name: user.name
+        }
+        localStorage.setItem('user', JSON.stringify(userInfo));
+        navigate("/dashboardlawyer/starter/", {
+          replace: false,
+          state: {
+            user: user,
+            email: values.email,
+            password: values.password
+          },
+        });
+      }).catch((e) => {
+        alert(e.message);
+      })
     } catch (e) {
       console.log(e);
-    }
-  };
-
-  const loginUser = async () => {
-    const { account, court } = passable;
-    let owner, judge, lawyer1, lawyer2;
-    await court.methods.owner().call((e, r) => {
-      owner = r;
-    });
-    await court.methods.getCaseAddresses(values.caseId).call((e, r) => {
-      if (!e) {
-        judge = r.judge;
-        lawyer1 = r.lawyer1;
-        lawyer2 = r.lawyer2;
-      }
-    });
-    if (account === owner) {
-      return 1;
-    } else if (account === lawyer1 || account === lawyer2) {
-      return 2;
-    } else if (account === judge) {
-      return 3;
-    } else {
-      return 4;
     }
   };
 
@@ -114,13 +111,29 @@ function LoginLawyerPage({ passable }) {
             <Grid item>
               <TextInput
                 autoComplete="on"
-                id="outlined-adornment-caseId"
-                label="Case ID"
-                value={values.caseId}
-                onChange={handleChange("caseId")}
+                id="outlined-adornment-email"
+                label="email"
+                value={values.email}
+                onChange={handleChange("email")}
                 inputProps={{
-                  "aria-label": "caseId",
+                  "aria-label": "email",
                 }}
+                type="email"
+                labelWidth={65}
+                fullWidth
+              />
+            </Grid>
+            <Grid item>
+              <TextInput
+                autoComplete="on"
+                id="outlined-adornment-password"
+                label="password"
+                value={values.password}
+                onChange={handleChange("password")}
+                inputProps={{
+                  "aria-label": "password",
+                }}
+                type="password"
                 labelWidth={65}
                 fullWidth
               />
@@ -134,7 +147,7 @@ function LoginLawyerPage({ passable }) {
               onClick={submitForm}
               type="submit"
             >
-              Sign In using Metamask
+              Sign In
             </CustomButton>
           </form>
           <Link to="/register" style={{ textDecoration: "none" }}>

@@ -23,6 +23,11 @@ const navigation = [
     icon: "bi bi-hdd-stack",
   },
   {
+    title: "Link Case",
+    href: "/dashboardlawyer/link",
+    icon: "bi bi-hdd-stack",
+  },
+  {
     title: "Profile",
     href: "/dashboardlawyer/profile",
     icon: "bi bi-hdd-stack",
