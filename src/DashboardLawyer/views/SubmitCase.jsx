@@ -59,6 +59,7 @@ const SubmitCase = () => {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
+        alert("case submitted successfully");
       }).catch((e) => {
         console.log(e);
         alert(e.message);
