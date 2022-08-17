@@ -16,6 +16,7 @@ import bg2 from "../assets/images/bg/bg2.jpg";
 import bg3 from "../assets/images/bg/bg3.jpg";
 import bg4 from "../assets/images/bg/bg4.jpg";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 var BlogData = [
     // {
@@ -93,21 +94,15 @@ const CaseTrack = () => {
       const token = user.token;
       console.log(token);
       console.log(email);
-      let data = await fetch(
-        "http://localhost:3001/case/get/"+email,
-        {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-            "authorization": `Bearer ${token}`,
-            "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
-          }
+      const {data} = await axios.get("http://localhost:3001/case/get/"+email,{
+        headers: {
+          "authorization": `Bearer ${token}`,
         }
-      );
-      data = await data.json();
-      console.log(data.cases);
-      setCases(cases => [...cases, data.cases]);
-      console.log(cases);
+      })
+      setCases((prev) => {
+        return [...prev, ...data.cases]
+      });
+      // console.log(cases);
     };
     func();
   }, []);
@@ -115,8 +110,9 @@ const CaseTrack = () => {
     <div>
       <h5 className="mb-3">All Cases</h5>
       <div className="row">
-                  {BlogData.map((ele,i) => (
-                    <div key={i} className="col-xl-6 col-sm-12 py-2">
+                  {cases.map((ele,i) => {
+                    console.log(ele)
+                    return <div key={i} className="col-xl-6 col-sm-12 py-2">
                       <div className="ses-info">
                         <h1>{ele.nameOfPlantiff}</h1>
                         {/* {ele.status==="1"?(<p style={{color:'green'}}>Accepted</p>):
@@ -124,9 +120,10 @@ const CaseTrack = () => {
                         <p>{ele.nameOfDefendant}</p>
                         <p>{ele._id}</p>
                         <p>{ele.summaryOfComplaint}</p>
+                        
                       </div>
                   </div>
-                  ))}
+                  })}
                 </div>
     </div>
   );
