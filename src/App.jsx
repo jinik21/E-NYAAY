@@ -22,7 +22,7 @@ import CaseTrack from "./DashboardLawyer/views/CaseTrack";
 import AboutLawyer from "./DashboardLawyer/views/About";
 import Blockchain from "./pages/Blockchain";
 import Profile from "./DashboardLawyer/views/profile";
-import Chat from "./DashboardLawyer/views/chat";
+// import Chat from "./DashboardLawyer/views/chat";
 import web3 from "./ethereum/web3";
 import { useEffect, useState } from "react";
 import court from "./ethereum/factory";
@@ -108,7 +108,7 @@ function App() {
         <Route
           exact
           path="/dashboardlawyer/queries"
-          element={<Chat passable={state} />}
+          element={<CaseQueries passable={state} />}
         />
         <Route
           exact
