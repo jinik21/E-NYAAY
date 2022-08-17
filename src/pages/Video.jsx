@@ -1,13 +1,13 @@
 import { AgoraVideoPlayer } from "agora-rtc-react";
 import React, { useEffect, useState } from "react";
-import firebase from "./firebaseconfig";
-import { getStorage } from "firebase/storage";
+// import firebase from "./firebaseconfig";
+// import { getStorage } from "firebase/storage";
 import Controls from "./Controls";
 // // import AgoraRTM from "agora-rtm-sdk";
 // // import useAgoraRtm from "./useAgoraRtm";
 // // const clientRTM = AgoraRTM.createInstance("370cc8b63bac46d381f17915984b033d");
 
-const storageRef = getStorage(firebase);
+// const storageRef = getStorage(firebase);
 
 const Video = ({
   useClient,
