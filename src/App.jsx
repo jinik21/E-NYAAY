@@ -12,9 +12,11 @@ import Landing2 from "./pages/landing/landing";
 import "./App.css";
 import Dashboard from "./Dashboard/layouts/FullLayout";
 import DashboardLawyer from "./DashboardLawyer/layouts/FullLayout";
+import DashboardAdmin from "./DashboardAdmin/layouts/FullLayout";
 import Starter from "./Dashboard/views/Starter";
 import About from "./Dashboard/views/About";
 import StarterLawyer from "./DashboardLawyer/views/Starter";
+import StarterAdmin from "./DashboardAdmin/views/Starter";
 import SubmitCase from "./DashboardLawyer/views/SubmitCase";
 import CaseLink from "./DashboardLawyer/views/CaseLink";
 import CaseQueries from "./DashboardLawyer/views/CaseQueries";
@@ -27,6 +29,9 @@ import web3 from "./ethereum/web3";
 import { useEffect, useState } from "react";
 import court from "./ethereum/factory";
 import { get } from "firebase/database";
+import ProfileAdmin from "./DashboardAdmin/views/profile";
+import ApproveCases from "./DashboardAdmin/views/approveCases";
+import CaseTrackAdmin from "./DashboardAdmin/views/CaseTrack";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -121,7 +126,28 @@ function App() {
           element={<Profile passable={state} />}
         />
       </Route>
-      <Route exact path="/block" element={<Blockchain passable={state} />} />
+      <Route
+          exact path = "/dashboardadmin"
+          element={<DashboardAdmin />}
+      >
+        <Route
+          exact path = "/dashboardadmin/starter"
+          element = {<StarterAdmin />}
+        />
+        <Route
+          exact path = "/dashboardadmin/profile"
+          element = {<ProfileAdmin/>}
+        />
+        <Route
+          exact path = "/dashboardadmin/approve"
+          element = {<ApproveCases/>}
+        />
+        <Route
+          exact path = "/dashboardadmin/track"
+          element = {<CaseTrackAdmin/>}
+        />
+      </Route>
+      <Route exact path="/block" element={<Blockchain passable={state}/>} />
     </Routes>
   );
 }

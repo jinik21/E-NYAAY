@@ -4,27 +4,27 @@ import { Link, useLocation } from "react-router-dom";
 const navigation = [
   {
     title: "Dashboard",
-    href: "/dashboardlawyer/starter",
+    href: "/dashboardadmin/starter",
     icon: "bi bi-speedometer2",
   },
+  // {
+  //   title: "Submit Case",
+  //   href: "/dashboardadmin/submitcase",
+  //   icon: "bi bi-bell",
+  // },
   {
-    title: "Submit Case",
-    href: "/dashboardlawyer/submitcase",
-    icon: "bi bi-bell",
-  },
-  {
-    title: "Case Queries",
-    href: "/dashboardlawyer/queries",
+    title: "Approve Incoming Cases",
+    href: "/dashboardadmin/approve",
     icon: "bi bi-patch-check",
   },
   {
     title: "Case Track",
-    href: "/dashboardlawyer/track",
+    href: "/dashboardadmin/track",
     icon: "bi bi-hdd-stack",
   },
   {
     title: "Profile",
-    href: "/dashboardlawyer/profile",
+    href: "/dashboardadmin/profile",
     icon: "bi bi-hdd-stack",
   }
 ];

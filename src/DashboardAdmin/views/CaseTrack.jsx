@@ -83,26 +83,28 @@ const BlogData = [
   },
 ];
 
-const CaseTrack = () => {
+const CaseTrackAdmin = () => {
   return (
     <div>
       <h5 className="mb-3">All Cases</h5>
       <Row>
-        {BlogData.map((blg, index) => (
-          <Col sm="6" lg="6" xl="3" key={index}>
-            <Blog
-              image={blg.image}
-              title={blg.title}
-              subtitle={blg.subtitle}
-              text={blg.description}
-              color={blg.btnbg}
-              style={{marginBottom:"10%"}}
-            />
-          </Col>
-        ))}
+      {BlogData.map((ele,i) => {
+            console.log(ele)
+            return <div key={i} className="col-xl-6 col-sm-12 py-2">
+              <div className="ses-info">
+                <h1>{ele.title}</h1>
+                {/* {ele.status==="1"?(<p style={{color:'green'}}>Accepted</p>):
+                (ele.status==="-1"?(<p style={{color:'red'}}>Rejected</p>):(<p style={{color:'#FFAF33'}}>Pending</p>))} */}
+                <p>{ele.subtitle}</p>
+                <p>{ele.description}</p>
+                <p>{ele.btnbg}</p>
+                
+              </div>
+          </div>
+          })} 
       </Row>
     </div>
   );
 };
 
-export default CaseTrack;
+export default CaseTrackAdmin;

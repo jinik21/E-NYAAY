@@ -110,23 +110,25 @@ const CaseTrack = () => {
     <div>
       <h5 className="mb-3">All Cases</h5>
       <div className="row">
-                  {cases.map((ele,i) => {
-                    console.log(ele)
-                    return <div key={i} className="col-xl-6 col-sm-12 py-2">
-                      <div className="ses-info">
-                        <h1>{ele.nameOfPlantiff}</h1>
-                        {/* {ele.status==="1"?(<p style={{color:'green'}}>Accepted</p>):
-                        (ele.status==="-1"?(<p style={{color:'red'}}>Rejected</p>):(<p style={{color:'#FFAF33'}}>Pending</p>))} */}
-                        <p>{ele.nameOfDefendant}</p>
-                        <p>{ele._id}</p>
-                        <p>{ele.summaryOfComplaint}</p>
-                        
-                      </div>
-                  </div>
-                  })}
-                </div>
+      {cases.map((ele,i) => {
+            console.log(ele)
+            return <div key={i} className="col-xl-6 col-sm-12 py-2">
+              <div className="ses-info">
+                <h1>{ele.nameOfPlantiff}</h1>
+                {/* {ele.status==="1"?(<p style={{color:'green'}}>Accepted</p>):
+                (ele.status==="-1"?(<p style={{color:'red'}}>Rejected</p>):(<p style={{color:'#FFAF33'}}>Pending</p>))} */}
+                <p>{ele.nameOfDefendant}</p>
+                <p>{ele._id}</p>
+                <p>{ele.summaryOfComplaint}</p>
+                
+              </div>
+          </div>
+          })} 
+      </div>
     </div>
   );
 };
 
 export default CaseTrack;
+
+

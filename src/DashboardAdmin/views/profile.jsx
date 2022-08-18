@@ -2,7 +2,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import DoneIcon from "@mui/icons-material/Done";
 import "./profile.css";
 
-const Profile = () => {
+const ProfileAdmin = () => {
   return (
     <div>
         <div class="container" style={{ paddingTop: "40px" }}>
@@ -365,4 +365,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileAdmin;

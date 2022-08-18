@@ -5,22 +5,22 @@ import { Container } from "reactstrap";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
-const FullLayout = ({ passable }) => {
+const DashboardAdmin = ({ passable }) => {
   let location = useLocation();
   console.log(location);
-  const { account, court } = passable;
-  useEffect(() => {
-    const getUserInformation = async () => {
-      try {
-        await court.methods.getLawyerInfo(account).call((e, r) => {
-          console.log(r);
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getUserInformation();
-  }, []);
+  // const { account, court } = passable;
+  // useEffect(() => {
+  //   const getUserInformation = async () => {
+  //     try {
+  //       await court.methods.getLawyerInfo(account).call((e, r) => {
+  //         console.log(r);
+  //       });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   getUserInformation();
+  // }, []);
   return (
     <main>
       {/********header**********/}
@@ -42,4 +42,4 @@ const FullLayout = ({ passable }) => {
   );
 };
 
-export default FullLayout;
+export default DashboardAdmin;
