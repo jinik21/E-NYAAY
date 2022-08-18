@@ -41,14 +41,12 @@ const CustomButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(1),
 }));
 
-function LoginAdminPage() {
+function LoginAdminPage({passable}) {
   const classes = {};
   // const dispatch
   const [values, setValues] = React.useState({
     password: '',
     email: '',
-    showPassword: false,
-    submitButtonDisable: false,
   });
 
   const navigate = useNavigate();
@@ -61,22 +59,42 @@ function LoginAdminPage() {
     setValues({ ...values, showPassword: !values.showPassword });
   };
 
-  const submitForm = async () => {
-    navigate('/dashboard/starter/', { replace: true });
-    // setValues({ ...values, submitButtonDisable: true });
-    // try {
-    //   const data = {
-    //     email: values.email,
-    //     password: values.password,
-    //   };
-    //   const response = await API.post('/signin', data);
-    //   saveUser(response.data);
-    //   navigate('/dashboard/starter', { replace: true });
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    //   setValues({ ...values, submitButtonDisable: false });
-    // }
+  const submitForm = async (e) => {
+    console.log(values.email);
+    console.log(values.password);
+    e.preventDefault();
+    try {
+      fetch("http://localhost:3001/admin/signin", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+      }),
+    })
+      .then((response) => response.json())
+      .then((user) => {
+        console.log(user.token);
+        const userInfo = {
+          token: user.token,
+          email: user.email,
+          name: user.name
+        }
+        localStorage.setItem('user', JSON.stringify(userInfo));
+        navigate("/dashboardadmin/starter/", {
+          replace: false,
+          state: {
+            user: user,
+            email: values.email,
+            password: values.password
+          },
+        });
+      }).catch((e) => {
+        alert(e.message);
+      })
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
