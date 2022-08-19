@@ -32,6 +32,7 @@ import { get } from "firebase/database";
 import ProfileAdmin from "./DashboardAdmin/views/profile";
 import ApproveCases from "./DashboardAdmin/views/approveCases";
 import CaseTrackAdmin from "./DashboardAdmin/views/CaseTrack";
+import CaseInfo from "./DashboardLawyer/views/CaseInfo";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -124,6 +125,10 @@ function App() {
           exact
           path="/dashboardlawyer/profile"
           element={<Profile passable={state} />}
+        />
+        <Route
+          exact path="/dashboardlawyer/case-info"
+          element = {<CaseInfo passable={state}/>}
         />
       </Route>
       <Route
