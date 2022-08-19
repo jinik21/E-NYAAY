@@ -1,8 +1,42 @@
 import CreateIcon from "@mui/icons-material/Create";
 import DoneIcon from "@mui/icons-material/Done";
 import "./profile.css";
+import React, { useEffect, useState } from "react";
 
 const ProfileAdmin = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const [fullname, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [bar, setBar] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setstate] = useState("");
+  const [nocases, setnocases] = useState(0);
+  useEffect(() => {
+    const func = async () => {
+      const token = user.token;
+      console.log(token);
+      let data = await fetch(
+        "http://localhost:3001/admin/profile",
+        {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
+          }
+        }
+      );
+      data = await data.json();
+      console.log(data);
+      setFullName(data.name);
+      setPhone(data.phone);
+      setBar(data.barNo);
+      setCity(data.city);
+      setstate(data.state);
+      setnocases(data.cases.length);
+    };
+    func();
+  }, []);
   return (
     <div>
         <div class="container" style={{ paddingTop: "40px" }}>
@@ -19,9 +53,9 @@ const ProfileAdmin = () => {
                             style={{"height": "200px"}} />
                       </div>
                       <h5 class="user-name" style={{"alignContent": "space-evenly"}}>
-                        Lawyer Lawyer
+                        {fullname}
                       </h5>
-                      <h6 class="user-email">lawyer@gmail.com</h6>
+                      <h6 class="user-email">{user.email}</h6>
                     </div>
                   </div>
                 </div>
@@ -35,7 +69,7 @@ const ProfileAdmin = () => {
                       <h6 class="mb-2 text-primary">Personal Details</h6>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <label for="Name">First Name</label>
+                      <label for="Name">Full Name</label>
                       <div class="input-group mb-3">
                         <input
                           type="text"
@@ -45,8 +79,8 @@ const ProfileAdmin = () => {
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
                           //onChange={this.onedit}
-                          value="Lawyer"
-                          //disabled={this.state.abled_firstname}
+                          value={fullname}
+                          disabled={true}
                         />
                         {/* <div class="input-group-append">
                           {this.state.abled_firstname === "disabled" ? (
@@ -70,41 +104,6 @@ const ProfileAdmin = () => {
                       </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <label for="Name">Last Name</label>
-                      <div class="input-group mb-3">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Last Name"
-                          name="lastname"
-                          aria-label="Recipient's username"
-                          aria-describedby="basic-addon2"
-                          //onChange={this.onedit}
-                          value="Lawyer"
-                          //disabled={this.state.abled_lastname}
-                        />
-                        {/* <div class="input-group-append">
-                          {this.state.abled_lastname === "disabled" ? (
-                            <button
-                              class="input-group-text"
-                              id="basic-addon2"
-                              onClick={this.IsLastnameAbled}
-                            >
-                              <CreateIcon />
-                            </button>
-                          ) : (
-                            <button
-                              class="input-group-text"
-                              id="basic-addon2"
-                              onClick={this.onLastnameUpdate}
-                            >
-                              <DoneIcon />
-                            </button>
-                          )}
-                        </div> */}
-                      </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                       <label for="Name">Phone</label>
                       <div class="input-group mb-3">
                         <input
@@ -115,8 +114,8 @@ const ProfileAdmin = () => {
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
                           //onChange={this.onedit}
-                          value="9898989893"
-                          //disabled={this.state.abled_phone}
+                          value={phone}
+                          disabled={true}
                         />
                         {/* <div class="input-group-append">
                           {this.state.abled_phone === "disabled" ? (
@@ -140,7 +139,7 @@ const ProfileAdmin = () => {
                       </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <label for="Name">Date of Birth</label>
+                      <label for="Name">Bar Registration Number</label>
                       <div class="input-group mb-3">
                         <input
                           type="text"
@@ -150,8 +149,8 @@ const ProfileAdmin = () => {
                           name="dob"
                           aria-describedby="basic-addon2"
                           //onChange={this.onedit}
-                          value="date"
-                          //disabled={this.state.abled_dob}
+                          value={bar}
+                          disabled={true}
                         />
                         {/* <div class="input-group-append">
                           {this.state.abled_dob === "disabled" ? (
@@ -180,41 +179,6 @@ const ProfileAdmin = () => {
                       <h6 class="mt-3 mb-2 text-primary">Location</h6>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <label for="Name">Address</label>
-                      <div class="input-group mb-3">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Recipient's username"
-                          aria-label="Recipient's username"
-                          name="address"
-                          aria-describedby="basic-addon2"
-                          //onChange={this.onedit}
-                          value="Address"
-                          //disabled={this.state.abled_address}
-                        />
-                        {/* <div class="input-group-append">
-                          {this.state.abled_address === "disabled" ? (
-                            <button
-                              class="input-group-text"
-                              id="basic-addon2"
-                              onClick={this.IsAddressAbled}
-                            >
-                              <CreateIcon />
-                            </button>
-                          ) : (
-                            <button
-                              class="input-group-text"
-                              id="basic-addon2"
-                              onClick={this.onAddressUpdate}
-                            >
-                              <DoneIcon />
-                            </button>
-                          )}
-                        </div> */}
-                      </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                       <label for="Name">City</label>
                       <div class="input-group mb-3">
                         <input
@@ -225,8 +189,8 @@ const ProfileAdmin = () => {
                           name="city"
                           aria-describedby="basic-addon2"
                           //onChange={this.onedit}
-                          value="City"
-                          //disabled={this.state.abled_city}
+                          value={city}
+                          disabled={true}
                         />
                         {/* <div class="input-group-append">
                           {this.state.abled_city === "disabled" ? (
@@ -260,8 +224,8 @@ const ProfileAdmin = () => {
                           name="state"
                           aria-describedby="basic-addon2"
                           // onChange={this.onedit}
-                          value="State"
-                          // disabled={this.state.abled_state}
+                          value={state}
+                          disabled={true}
                         />
                         {/* <div class="input-group-append">
                           {this.state.abled_state === "disabled" ? (
@@ -285,18 +249,18 @@ const ProfileAdmin = () => {
                       </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <label for="Name">Pincode</label>
+                      <label class="mt-3 mb-2 text-primary" for="Name">Number of Cases</label>
                       <div class="input-group mb-3">
                         <input
                           type="text"
                           class="form-control"
                           placeholder="Recipient's username"
                           aria-label="Recipient's username"
-                          name="pincode"
+                          name="nocases"
                           aria-describedby="basic-addon2"
                           // onChange={this.onedit}
-                          value="1001001"
-                          // disabled={this.state.abled_pincode}
+                          value={nocases}
+                          disabled={true}
                         />
                         {/* <div class="input-group-append">
                           {this.state.abled_pincode === "disabled" ? (
@@ -319,42 +283,6 @@ const ProfileAdmin = () => {
                         </div> */}
                       </div>
                     </div>
-                  </div>
-                  <div class="row gutters">
-                    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-                      <div class="text-right">
-                        <button
-                          type="button"
-                          name="submit"
-                          class="btn btn-primary"
-                          // onClick={this.onUpdate}
-                        >
-                          Click To Confirm
-                        </button>
-                      </div>
-                    </div>
-                    {/* {this.state.canChange?(
-                        <div>
-                    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-                      <span class="input-group-btn">
-                        <span class="btn btn-primary">
-                          <input
-                            type="file"
-                            single
-                            onChange={this.handleChange}
-                          />
-                        </span>
-                      </span>
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
-                        <button
-                        type="button"
-                        class="btn btn-primary"
-                        onClick={() => this.uploadImage(this.state.file.name)}
-                        >
-                        Upload Photo
-                        </button>
-                    </div></div>):(<div className="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12"><button onClick={this.IsChange} className="btn btn-primary">Change Photo</button></div>)} */}
                   </div>
                 </div>
               </div>
