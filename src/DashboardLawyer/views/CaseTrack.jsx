@@ -1,93 +1,11 @@
-import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  CardGroup,
-  Button,
-  Row,
-  Col,
-} from "reactstrap";
-import Blog from "../components/dashboard/Blog";
-import bg1 from "../assets/images/bg/bg1.jpg";
-import bg2 from "../assets/images/bg/bg2.jpg";
-import bg3 from "../assets/images/bg/bg3.jpg";
-import bg4 from "../assets/images/bg/bg4.jpg";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
-var BlogData = [
-    // {
-    //   image: bg1,
-    //   title: "This is simple blog",
-    //   subtitle: "2 comments, 1 Like",
-    //   description:
-    //     "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    //   btnbg: "primary",
-    // },
-    // {
-    //   image: bg2,
-    //   title: "Lets be simple blog",
-    //   subtitle: "2 comments, 1 Like",
-    //   description:
-    //     "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    //   btnbg: "primary",
-    // },
-    // {
-    //   image: bg3,
-    //   title: "Don't Lamp blog",
-    //   subtitle: "2 comments, 1 Like",
-    //   description:
-    //     "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    //   btnbg: "primary",
-    // },
-    // {
-    //   image: bg4,
-    //   title: "Simple is beautiful",
-    //   subtitle: "2 comments, 1 Like",
-    //   description:
-    //     "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    //   btnbg: "primary",
-    // },
-    // {
-    //   image: bg1,
-    //   title: "This is simple blog",
-    //   subtitle: "2 comments, 1 Like",
-    //   description:
-    //     "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    //   btnbg: "primary",
-    // },
-    // {
-    //   image: bg2,
-    //   title: "Lets be simple blog",
-    //   subtitle: "2 comments, 1 Like",
-    //   description:
-    //     "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    //   btnbg: "primary",
-    // },
-    // {
-    //   image: bg3,
-    //   title: "Don't Lamp blog",
-    //   subtitle: "2 comments, 1 Like",
-    //   description:
-    //     "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    //   btnbg: "primary",
-    // },
-    // {
-    //   image: bg4,
-    //   title: "Simple is beautiful",
-    //   subtitle: "2 comments, 1 Like",
-    //   description:
-    //     "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    //   btnbg: "primary",
-    // },
-];
+import { useNavigate } from "react-router-dom";
 
 const CaseTrack = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [cases,setCases] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     const func = async () => {
       const email = user.email;
@@ -106,21 +24,30 @@ const CaseTrack = () => {
     };
     func();
   }, []);
+
+  const AboutCase = (_id) =>{
+    console.log(_id);
+    navigate("/dashboardlawyer/case-info",{
+      state: {
+        id: _id
+      }
+    })
+  }
+
   return (
     <div>
       <h5 className="mb-3">All Cases</h5>
       <div className="row">
       {cases.map((ele,i) => {
-            console.log(ele)
+            console.log(ele._id)
             return <div key={i} className="col-xl-6 col-sm-12 py-2">
-              <div className="ses-info">
+              <div className="ses-info" onClick={() => AboutCase(ele._id)}>
                 <h1>{ele.nameOfPlantiff}</h1>
-                {/* {ele.status==="1"?(<p style={{color:'green'}}>Accepted</p>):
-                (ele.status==="-1"?(<p style={{color:'red'}}>Rejected</p>):(<p style={{color:'#FFAF33'}}>Pending</p>))} */}
+                {ele.status==="VERIFIED"?(<p style={{color:'green'}}>Status: Accepted</p>):
+                (ele.status==="REJECTED"?(<p style={{color:'red'}}>Status: Rejected</p>):(<p style={{color:'#FFAF33'}}>Status: Pending</p>))}
                 <p>{ele.nameOfDefendant}</p>
                 <p>{ele._id}</p>
                 <p>{ele.summaryOfComplaint}</p>
-                
               </div>
           </div>
           })} 
