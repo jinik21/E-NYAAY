@@ -7,11 +7,11 @@ const navigation = [
     href: "/dashboardadmin/starter",
     icon: "bi bi-speedometer2",
   },
-  // {
-  //   title: "Submit Case",
-  //   href: "/dashboardadmin/submitcase",
-  //   icon: "bi bi-bell",
-  // },
+  {
+    title: "New Cases",
+    href: "/dashboardadmin/newcases",
+    icon: "bi bi-bell",
+  },
   {
     title: "Approve Incoming Cases",
     href: "/dashboardadmin/approve",

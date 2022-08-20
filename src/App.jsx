@@ -32,7 +32,10 @@ import { get } from "firebase/database";
 import ProfileAdmin from "./DashboardAdmin/views/profile";
 import ApproveCases from "./DashboardAdmin/views/approveCases";
 import CaseTrackAdmin from "./DashboardAdmin/views/CaseTrack";
+import NewCases from "./DashboardAdmin/views/newCases";
 import CaseInfo from "./DashboardLawyer/views/CaseInfo";
+import CaseInfoAdmin from "./DashboardAdmin/views/CaseInfoAdmin";
+import CaseInfoAdminAppr from "./DashboardAdmin/views/CaseInfoAdminAppr";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -150,6 +153,18 @@ function App() {
         <Route
           exact path = "/dashboardadmin/track"
           element = {<CaseTrackAdmin/>}
+        />
+        <Route
+          exact path = "/dashboardadmin/newcases"
+          element = {<NewCases/>}
+        />
+        <Route
+          exact path="/dashboardadmin/case-info"
+          element = {<CaseInfoAdmin passable={state}/>}
+        />
+        <Route
+          exact path="/dashboardadmin/approved-case-info"
+          element = {<CaseInfoAdminAppr passable={state}/>}
         />
       </Route>
       <Route exact path="/block" element={<Blockchain passable={state}/>} />
