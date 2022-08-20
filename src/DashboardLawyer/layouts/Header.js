@@ -29,7 +29,7 @@ const Header = () => {
   };
   const logout = () => {
     localStorage.removeItem('user');
-    navigate("/login_lawyer", {
+    navigate("/", {
       replace: false
     });
   };

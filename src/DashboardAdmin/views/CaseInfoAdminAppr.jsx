@@ -8,6 +8,11 @@ const CaseInfoAdminAppr = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [caseInfo, setcaseInfo] = useState({});
     const [case_id, setCaseid] = useState("");
+    const [values, setValues] = React.useState({
+        emailOfJudge: "",
+        date:"",
+        time:"",
+    });
     useEffect(() => {
         const func = async () => {
             const caseid=location.state.id;
@@ -32,7 +37,12 @@ const CaseInfoAdminAppr = () => {
           };
           func();
     }, []);
-    const handleApprove = async(e)=>{
+    
+    const handleChange = (prop) => (event) => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+    const
+     handleAssign = async(e)=>{
         e.preventDefault();
         const token = user.token
         try{
@@ -41,12 +51,13 @@ const CaseInfoAdminAppr = () => {
             headers: { "Content-type": "application/json", "authorization": `Bearer ${token}` },
             body: JSON.stringify({
               caseId: case_id,
+              judgeEmail: values.emailOfJudge,
             }),
           })
           .then((response) => response.json())
           .then((response) => {
             console.log(response);
-            alert("case Approved successfully");
+            alert("Judge Assigned successfully");
           }).catch((e) => {
             console.log(e);
             alert(e.message);
@@ -55,21 +66,22 @@ const CaseInfoAdminAppr = () => {
           console.log(e);
         }
       }
-      const handleReject = async(e)=>{
+      const handleSchedule = async(e)=>{
         e.preventDefault();
         const token = user.token
         try{
-          fetch("http://localhost:3001/admin/reject",{
+          fetch("http://localhost:3001/session/schedule",{
             method:"post",
             headers: { "Content-type": "application/json", "authorization": `Bearer ${token}` },
             body: JSON.stringify({
               caseId: case_id,
+              judgeEmail: values.emailOfJudge,
             }),
           })
           .then((response) => response.json())
           .then((response) => {
             console.log(response);
-            alert("case Rejected successfully");
+            alert("Session Scheduled successfully");
           }).catch((e) => {
             console.log(e);
             alert(e.message);
@@ -234,7 +246,56 @@ const CaseInfoAdminAppr = () => {
           </CardBody>
         </Card>
       </Col>
-    </Row>
+      <div style={{width:"100%"}}>
+            <h5 className="mb-3">Assign Judge</h5>
+            <Row>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Email Of Judge</label>
+                    <input onChange={handleChange("emailOfJudge")} value={values.emailOfJudge} type="email" class="form-control" id="exampleFormControlInput1" placeholder="Email of Judge" />
+                </div>
+                <div className="col-md-6 mb-4">
+                    <div className="form-outline">
+                        <button onClick={handleAssign} type="button" className="btn btn-warning btn-lg ms-2 b2-color" >
+                            Assign
+                        </button>
+                    </div>
+                </div>
+            </Row>
+      </div>
+      <div className="col main pt-5 mt-3" style={{width:"100%"}}>
+            <h5 className="mb-3">Schedule Session</h5>
+                <div className="col-md-6 mb-4">
+                    <div className="form-outline mb-4">
+                        <label className="form-label" htmlFor="form3Example9">
+                            Date of Session
+                        </label>
+                        <input
+                            type="date"
+                            id="form3Example9"
+                            className="form-control form-control-lg"
+                            name="date"
+                            value={values.date}
+                            onChange={handleChange("date")}
+                            required
+                          />
+                    </div>
+                </div>
+                <div className="col-md-6 mb-4">
+                    <div className="form-outline mb-4">
+                        <label for="inputMDEx1">Select Time Of Session</label>
+                        <input type="time" name="time" value={values.time} onChange={handleChange("time")} id="inputMDEx1" className="form-control"/>
+                    </div>
+                </div>
+                <div className="col-md-6 mb-4">
+                    <div className="form-outline">
+                        <button onClick={handleSchedule} type="button" className="btn btn-warning btn-lg ms-2 b2-color" >
+                            Schedule
+                        </button>
+                    </div>
+                </div>
+      </div>
+  
+            </Row>
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 import {
   Navbar,
   Collapse,
@@ -19,12 +19,19 @@ import user1 from "../assets/images/users/user4.jpg";
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const Handletoggle = () => {
     setIsOpen(!isOpen);
+  };
+  const logout = () => {
+    localStorage.removeItem('user');
+    navigate("/", {
+      replace: false
+    });
   };
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
@@ -101,7 +108,7 @@ const Header = () => {
             <DropdownItem divider />
             <DropdownItem>My Balance</DropdownItem>
             <DropdownItem>Inbox</DropdownItem>
-            <DropdownItem>Logout</DropdownItem>
+            <DropdownItem><button onClick={logout}>Logout</button></DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </Collapse>
