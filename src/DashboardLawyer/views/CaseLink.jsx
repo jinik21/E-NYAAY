@@ -33,6 +33,7 @@ var metadata = {
     const [values, setValues] = React.useState({
         caseId:"",
         emailOfDefendantLawyer: user.email,
+        nameOfDefendantLawyer: user.name,
         vakalatDocDefendant: "https://districts.ecourts.gov.in/sites/default/files/Court%20Fee_.pdf",
         verificationDocDefendant: "https://districts.ecourts.gov.in/sites/default/files/Court%20Fee_.pdf"
       });
@@ -106,6 +107,7 @@ var metadata = {
             body: JSON.stringify({
               caseId: values.caseId,
               emailOfDefendantLawyer: values.emailOfDefendantLawyer,
+              nameOfDefendantLawyer: values.nameOfDefendantLawyer,
               vakalatDocDefendant: data1,
               verificationDocDefendant: data
             }),

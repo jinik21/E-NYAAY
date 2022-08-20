@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import ProjectTables from "../components/dashboard/ProjectTable";
 import { Row, Col, Table, Card, CardTitle, CardBody } from "reactstrap";
+import axios from "axios";
 
 const CaseInfoAdmin = () => {
     const location = useLocation();
@@ -69,7 +70,7 @@ const CaseInfoAdmin = () => {
           .then((response) => response.json())
           .then((response) => {
             console.log(response);
-            alert("case Rejected successfully");
+            alert("case Approved successfully");
           }).catch((e) => {
             console.log(e);
             alert(e.message);

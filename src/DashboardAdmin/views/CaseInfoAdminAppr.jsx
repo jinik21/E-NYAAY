@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import ProjectTables from "../components/dashboard/ProjectTable";
 import { Row, Col, Table, Card, CardTitle, CardBody } from "reactstrap";
+import CaseInfo from "../../DashboardLawyer/views/CaseInfo";
 
 const CaseInfoAdminAppr = () => {
     const location = useLocation();
     const user = JSON.parse(localStorage.getItem('user'));
     const [caseInfo, setcaseInfo] = useState({});
     const [case_id, setCaseid] = useState("");
-    const [values, setValues] = React.useState({
+    const [judgeEmail,setJE] = useState("");
+    const [values, setValues] = useState({
         emailOfJudge: "",
         date:"",
         time:"",
@@ -34,19 +36,23 @@ const CaseInfoAdminAppr = () => {
               console.log(data);
               setcaseInfo(data.cases)
               console.log(caseInfo)
+              setJE(caseInfo.judge.email);
           };
           func();
     }, []);
     
     const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
+        console.log(event.target.value)
+        setValues((prev) => {
+            return {...prev, [prop]: event.target.value}
+        });
     };
     const
      handleAssign = async(e)=>{
         e.preventDefault();
         const token = user.token
         try{
-          fetch("http://localhost:3001/admin/approve",{
+          fetch("http://localhost:3001/admin/assignJudge",{
             method:"post",
             headers: { "Content-type": "application/json", "authorization": `Bearer ${token}` },
             body: JSON.stringify({
@@ -58,24 +64,33 @@ const CaseInfoAdminAppr = () => {
           .then((response) => {
             console.log(response);
             alert("Judge Assigned successfully");
-          }).catch((e) => {
+        }).catch((e) => {
             console.log(e);
             alert(e.message);
-          })
-        } catch (e) {
-          console.log(e);
+        })
+    } catch (e) {
+        console.log(e);
         }
       }
       const handleSchedule = async(e)=>{
-        e.preventDefault();
-        const token = user.token
+          e.preventDefault();
+          const token = user.token
+          const [year,month,day] = values.date.split('-')
+          const [hours,min] = values.time.split(':')
+          const date = new Date(year,parseInt(month)-1,day,hours,min)
+          console.log(date)
         try{
-          fetch("http://localhost:3001/session/schedule",{
+          fetch("http://localhost:3001/admin/create/session",{
             method:"post",
             headers: { "Content-type": "application/json", "authorization": `Bearer ${token}` },
             body: JSON.stringify({
-              caseId: case_id,
-              judgeEmail: values.emailOfJudge,
+            emailOfJudge: caseInfo.judge.email,
+              emailOfPlantiff: caseInfo.emailOfPlantiff,
+              emailOfDefendant: caseInfo.emailOfDefendant,
+              emailOfPlantiffLawyer: caseInfo.emailOfPlantiffLawyer,
+              emailOfDefendantLawyer: caseInfo.emailOfDefendantLawyer,
+              caseId: caseInfo._id,
+              scheduledDate: date
             }),
           })
           .then((response) => response.json())
@@ -106,7 +121,7 @@ const CaseInfoAdminAppr = () => {
                   <td>
                     <div className="d-flex align-items-center p-2">
                       <div className="ms-3">
-                        <h6 className="mb-0">Judge</h6>
+                        <h6 className="mb-0">{caseInfo && caseInfo.judge && caseInfo.judge.email}</h6>
                         <span className="text-muted"></span>
                       </div>
                     </div>

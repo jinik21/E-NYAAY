@@ -17,11 +17,11 @@ const VideoCall = (props) => {
   useEffect(() => {
     const init = async () => {
       let data = await fetch(
-        `https://shrink4shrink.herokuapp.com/api/agora-call/token?channel=${sessionId}`
+        `http://localhost:3001/api/agora-call/token?channel=${sessionId}`
       );
       data = await data.json();
       console.log(data);
-      setToken(data.token);
+      setToken(data.agoraToken);
     };
     init();
     setInCall(true);
