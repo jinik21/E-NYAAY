@@ -55,6 +55,66 @@ const CaseInfo = () => {
             </tbody>
           </Table>
       </Col>
+      <Col lg="12">
+      <Table className="no-wrap mt-3 align-middle" responsive borderless>
+            <thead>
+              <tr>
+                <th>Summary Of Complaint</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr className="border-top">
+                  <td>
+                    <div className="d-flex align-items-center p-2">
+                      <div className="ms-3">
+                        <h6 className="mb-0">{caseInfo.summaryOfComplaint}</h6>
+                        <span className="text-muted"></span>
+                      </div>
+                    </div>
+                </td>
+                </tr>
+            </tbody>
+          </Table>
+      </Col>
+      <Col lg="12">
+      <Table className="no-wrap mt-3 align-middle" responsive borderless>
+            <thead>
+              <tr>
+                <th>Case Status</th>
+                <th>Nature Of Complaint</th>
+                <th>Fee Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr className="border-top">
+                  <td>
+                    <div className="d-flex align-items-center p-2">
+                      <div className="ms-3">
+                        <h6 className="mb-0">{caseInfo.status}</h6>
+                        <span className="text-muted"></span>
+                      </div>
+                    </div>
+                </td>
+                <td>
+                    <div className="d-flex align-items-center p-2">
+                      <div className="ms-3">
+                        <h6 className="mb-0">{caseInfo.natureOfComplaint}</h6>
+                        <span className="text-muted"></span>
+                      </div>
+                    </div>
+                </td>
+                <td>
+                    <div className="d-flex align-items-center p-2">
+                      <div className="ms-3">
+                        <h6 className="mb-0">{caseInfo.feeAmount}</h6>
+                        <span className="text-muted"></span>
+                      </div>
+                    </div>
+                </td>
+                </tr>
+            </tbody>
+          </Table>
+      </Col>
       <Col lg="12" style={{margin:"10px"}}>
         <Card >
           <CardTitle tag="h6" className="p-3 mb-0">
@@ -68,6 +128,7 @@ const CaseInfo = () => {
                   <th>Role in case</th>
                   <th>Full Name</th>
                   <th>Email</th>
+                  <th>Address</th>
                 </tr>
               </thead>
               <tbody>
@@ -75,11 +136,13 @@ const CaseInfo = () => {
                   <th scope="row">Plantiff</th>
                   <td>{caseInfo.nameOfPlantiff}</td>
                   <td>{caseInfo.emailOfPlantiff}</td>
+                  <td>{caseInfo.addressOfPlantiff}</td>
                 </tr>
                 <tr>
                   <th scope="row">Defendant</th>
                   <td>{caseInfo.nameOfDefendant}</td>
                   <td>{caseInfo.emailOfDefendant}</td>
+                  <td>{caseInfo.addressOfDefendant}</td>
                 </tr>
               </tbody>
             </Table>
