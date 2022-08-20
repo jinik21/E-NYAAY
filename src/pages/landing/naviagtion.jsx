@@ -61,6 +61,7 @@ export const Navigation = (props) => {
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                       <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/register">Lawyer</a></li>
+                      <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/register_judge">Judge</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -75,7 +76,7 @@ export const Navigation = (props) => {
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                       <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/login_lawyer">Lawyer</a></li>
-                      <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/login">Judge</a></li>
+                      <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/login_judge">Judge</a></li>
                       <li><a class="dropdown-item fs-2 fw-bold page-scroll text-dark" href="/login_admin">Admin</a></li>
                     </ul>
                   </li>

@@ -44,7 +44,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(1),
 }));
 
-function RegisterPage() {
+function JudgeRegisterPage() {
   const [values, setValues] = React.useState({
     name: "",
     email: "",
@@ -70,33 +70,30 @@ function RegisterPage() {
     setValues({ ...values, submitButtonDisable: true });
     e.preventDefault();
     try {
-    //   const result = await Axios.post('http://localhost:3001/lawyer/signup',{
-    //     name: values.name,
-    //     email: values.email,
-    //     password: values.password,
-    //     phone: values.phone,
-    //     barNo: values.barNo,
-    //     state:values.state,
-    //     city:values.city,
-    //   })
-    //   console.log(result);
-      fetch("http://localhost:3001/lawyer/signup", {
+      console.log(values.name)
+      console.log(values.email)
+      console.log(values.password)
+      console.log(values.phone)
+      console.log(values.barNo)
+      console.log(values.state)
+      console.log(values.city)
+      fetch("http://localhost:3001/judge/signup", {
       method: "post",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
-        name: values.name,
-        email: values.email,
-        password: values.password,
-        phone: values.phone,
-        barNo: values.barNo,
-        state:values.state,
-        city:values.city,
-      }),
+        "name": values.name,
+        "email": values.email,
+        "phone": values.phone,
+        "regNo": values.barNo,
+        "city": values.city,
+        "state": values.state,
+        "password": values.password
+    }),
     })
       .then((response) => response.json())
       .then((user) => {
         console.log(user);
-        navigate("/login_lawyer", {
+        navigate("/login_judge", {
           replace: false,
           state: {
             user: user,
@@ -175,7 +172,7 @@ function RegisterPage() {
               <TextInput
                 autoComplete='off'
                 id='outlined-adornment-barRegistrationNumber'
-                label='Bar registration number'
+                label='Registration number'
                 value={values.barNo}
                 onChange={handleChange('barNo')}
                 inputProps={{
@@ -284,7 +281,7 @@ function RegisterPage() {
               Sign Up
             </CustomButton>
           </form>
-          <Link to='/login' style={{ textDecoration: 'none' }}>
+          <Link to='/login_judge' style={{ textDecoration: 'none' }}>
             <CustomButton
               variant='outlined'
               color='primary'
@@ -300,4 +297,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default JudgeRegisterPage;

@@ -13,6 +13,7 @@ import "./App.css";
 import Dashboard from "./Dashboard/layouts/FullLayout";
 import DashboardLawyer from "./DashboardLawyer/layouts/FullLayout";
 import DashboardAdmin from "./DashboardAdmin/layouts/FullLayout";
+import DashboardJudge from "./DashboardJudge/layouts/FullLayout"
 import Starter from "./Dashboard/views/Starter";
 import About from "./Dashboard/views/About";
 import StarterLawyer from "./DashboardLawyer/views/Starter";
@@ -36,6 +37,9 @@ import NewCases from "./DashboardAdmin/views/newCases";
 import CaseInfo from "./DashboardLawyer/views/CaseInfo";
 import CaseInfoAdmin from "./DashboardAdmin/views/CaseInfoAdmin";
 import CaseInfoAdminAppr from "./DashboardAdmin/views/CaseInfoAdminAppr";
+import LoginJudgePage from "./pages/LoginPageJudge";
+import JudgeRegisterPage from "./pages/JudgeRegisterPage";
+import StarterJudge from "./DashboardJudge/views/Starter";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -72,6 +76,10 @@ function App() {
         element={<LoginAdminPage passable={state} />}
       />
       <Route
+        exact path="/login_judge"
+        element={<LoginJudgePage passable={state}/>}
+      />
+      <Route
         exact
         path="/call/:sessionId"
         element={<VideoCall passable={state} />}
@@ -80,6 +88,10 @@ function App() {
         exact
         path="/register"
         element={<RegisterPage passable={state} />}
+      />
+      <Route
+        exact path = "/register_judge"
+        element = {<JudgeRegisterPage passable={state}/>}
       />
       <Route exact path="/landing" element={<Landing2 passable={state} />} />
       <Route exact path="/dashboard" element={<Dashboard passable={state} />}>
@@ -165,6 +177,12 @@ function App() {
         <Route
           exact path="/dashboardadmin/approved-case-info"
           element = {<CaseInfoAdminAppr passable={state}/>}
+        />
+      </Route>
+      <Route exact path="/dashboardjudge" element={<DashboardJudge/>}>
+        <Route
+          exact path = "/dashboardjudge/starter"
+          element = {<StarterJudge passable={state}/>}
         />
       </Route>
       <Route exact path="/block" element={<Blockchain passable={state}/>} />
