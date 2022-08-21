@@ -182,7 +182,7 @@ function App() {
       <Route exact path="/dashboardjudge" element={<DashboardJudge/>}>
         <Route
           exact path = "/dashboardjudge/starter"
-          element = {<StarterJudge passable={state}/>}
+          element = {<StarterJudge/>}
         />
       </Route>
       <Route exact path="/block" element={<Blockchain passable={state}/>} />

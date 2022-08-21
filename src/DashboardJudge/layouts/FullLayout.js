@@ -8,19 +8,20 @@ import { useEffect } from "react";
 const DashboardJudge = ({ passable }) => {
   let location = useLocation();
   console.log(location);
-  const { account, court } = passable;
-  useEffect(() => {
-    const getUserInformation = async () => {
-      try {
-        await court.methods.getLawyerInfo(account).call((e, r) => {
-          console.log(r);
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getUserInformation();
-  }, []);
+  console.log(passable);
+  // const { account, court } = passable;
+  // useEffect(() => {
+  //   const getUserInformation = async () => {
+  //     try {
+  //       await court.methods.getLawyerInfo(account).call((e, r) => {
+  //         console.log(r);
+  //       });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   getUserInformation();
+  // }, []);
   return (
     <main>
       {/********header**********/}
