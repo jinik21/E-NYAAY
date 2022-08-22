@@ -98,8 +98,8 @@ const Video = ({
       });
 
       await client.join(appId, name, token, null);
-      if (trackScreen) await client.publish(trackScreen);
-      // if (tracks) await client.publish([tracks[0], tracks[1]]);
+      // if (trackScreen) await client.publish(trackScreen);
+      if (tracks) await client.publish([tracks[0], tracks[1]]);
       setStart(true);
     };
     if (ready && tracks) {
@@ -112,7 +112,7 @@ const Video = ({
     <div>
       {inCall && tracks && (
         <AgoraVideoPlayer
-          videoTrack={trackScreen}
+          videoTrack={tracks[1]}
           style={{
             height: "100vh",
             width: "100vw",

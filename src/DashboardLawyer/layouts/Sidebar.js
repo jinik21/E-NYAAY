@@ -59,7 +59,9 @@ const Sidebar = () => {
           {navigation.map((navi, index) => (
             <NavItem key={index} className="sidenav-bg">
               <Link
-              onClick={log}
+              onClick={()=>{
+                console.log("hello")
+              }}
                 to={navi.href}
                 className={
                   location.pathname === navi.href
