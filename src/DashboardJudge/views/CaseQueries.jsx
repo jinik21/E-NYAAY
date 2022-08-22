@@ -1,6 +1,6 @@
 import { Row, Col, Card, CardBody, CardTitle, Button } from "reactstrap";
 
-const CaseQueries = () => {
+const CaseQueriesJudge = () => {
   return (
     <div style={{width:"100%"}}>
       <h5 className="mb-3">Raise a Query</h5>
@@ -25,4 +25,4 @@ const CaseQueries = () => {
   );
 };
 
-export default CaseQueries;
+export default CaseQueriesJudge;

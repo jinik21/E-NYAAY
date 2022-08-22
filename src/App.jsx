@@ -40,6 +40,10 @@ import CaseInfoAdminAppr from "./DashboardAdmin/views/CaseInfoAdminAppr";
 import LoginJudgePage from "./pages/LoginPageJudge";
 import JudgeRegisterPage from "./pages/JudgeRegisterPage";
 import StarterJudge from "./DashboardJudge/views/Starter";
+import CaseQueriesJudge from "./DashboardJudge/views/CaseQueries";
+import CaseTrackJudge from "./DashboardJudge/views/CaseTrack";
+import ProfileJudge from "./DashboardJudge/views/profile";
+import CaseInfoJudge from "./DashboardJudge/views/CaseInfo";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -183,6 +187,22 @@ function App() {
         <Route
           exact path = "/dashboardjudge/starter"
           element = {<StarterJudge/>}
+        />
+        <Route
+          exact path = "/dashboardjudge/queries"
+          element = {<CaseQueriesJudge/>}
+        />
+        <Route
+          exact path = "/dashboardjudge/track"
+          element = {<CaseTrackJudge/>}
+        />
+        <Route
+          exact path = "/dashboardjudge/profile"
+          element = {<ProfileJudge/>}
+        />
+        <Route
+          exact path = "/dashboardjudge/case-info"
+          element = {<CaseInfoJudge/>}
         />
       </Route>
       <Route exact path="/block" element={<Blockchain passable={state}/>} />

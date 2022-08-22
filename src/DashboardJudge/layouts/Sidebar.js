@@ -4,22 +4,22 @@ import { Link, useLocation } from "react-router-dom";
 const navigation = [
   {
     title: "Dashboard",
-    href: "/dashboardlawyer/starter",
+    href: "/dashboardjudge/starter",
     icon: "bi bi-speedometer2",
   },
   {
     title: "Case Queries",
-    href: "/dashboardlawyer/queries",
+    href: "/dashboardjudge/queries",
     icon: "bi bi-patch-check",
   },
   {
     title: "Case Track",
-    href: "/dashboardlawyer/track",
+    href: "/dashboardjudge/track",
     icon: "bi bi-hdd-stack",
   },
   {
     title: "Profile",
-    href: "/dashboardlawyer/profile",
+    href: "/dashboardjudge/profile",
     icon: "bi bi-hdd-stack",
   }
 ];

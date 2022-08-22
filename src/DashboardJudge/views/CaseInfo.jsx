@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ProjectTables from "../components/dashboard/ProjectTable";
 import { Row, Col, Table, Card, CardTitle, CardBody } from "reactstrap";
 
-const CaseInfo = () => {
+const CaseInfoJudge = () => {
+  const navigate = useNavigate();
     const location = useLocation();
     const user = JSON.parse(localStorage.getItem('user'));
     const [caseInfo, setcaseInfo] = useState({});
@@ -30,6 +31,16 @@ const CaseInfo = () => {
           };
           func();
     }, []);
+    const handleVideo = async(e)=>{
+      e.preventDefault();
+      navigate("/call/"+location.state.id, {
+        replace: false,
+        state: {
+          user: user,
+          path: location.pathname
+        },
+      });
+    }
     return(
         <div>
             <h1>About case id: {location.state.id}</h1>
@@ -187,8 +198,25 @@ const CaseInfo = () => {
         </Card>
       </Col>
     </Row>
+    <div className="col-md-6 mb-4">
+          <div className="form-outline">
+            <button onClick={handleVideo} type="button" className="btn btn-warning btn-lg ms-2 b2-color" >
+                            Join Call
+            </button>
+          </div>
+        </div>
+    <Row>
+      <h1>Pass Judgement</h1>
+      <div class="mb-3" >
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Judgement"></textarea>
+
+          <button style = {{margin: "10px"}}type="button" className="btn btn-warning btn-lg ms-2 b2-color" >
+                            Submit
+            </button>
+        </div>
+    </Row>
         </div>
     )
 }
 
-export default CaseInfo;
+export default CaseInfoJudge;

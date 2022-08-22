@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const CaseTrack = () => {
+const CaseTrackJudge = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [cases,setCases] = useState([]);
   const navigate = useNavigate();
@@ -12,13 +12,14 @@ const CaseTrack = () => {
       const token = user.token;
       console.log(token);
       console.log(email);
-      const {data} = await axios.get("http://localhost:3001/case/get/"+email,{
+      const {data} = await axios.get("http://localhost:3001/case/getByStatus?status="+"VERIFIED",{
         headers: {
           "authorization": `Bearer ${token}`,
         }
       })
+      console.log(data);
       setCases((prev) => {
-        return [...prev, ...data.cases]
+        return [...prev, ...data.casesByStatus]
       });
       // console.log(cases);
     };
@@ -27,7 +28,7 @@ const CaseTrack = () => {
 
   const AboutCase = (_id) =>{
     console.log(_id);
-    navigate("/dashboardlawyer/case-info",{
+    navigate("/dashboardjudge/case-info",{
       state: {
         id: _id
       }
@@ -56,6 +57,6 @@ const CaseTrack = () => {
   );
 };
 
-export default CaseTrack;
+export default CaseTrackJudge;
 
 
