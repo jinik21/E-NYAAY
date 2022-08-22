@@ -13,11 +13,6 @@ const navigation = [
     icon: "bi bi-bell",
   },
   {
-    title: "Approve Incoming Cases",
-    href: "/dashboardadmin/approve",
-    icon: "bi bi-patch-check",
-  },
-  {
     title: "Case Track",
     href: "/dashboardadmin/track",
     icon: "bi bi-hdd-stack",

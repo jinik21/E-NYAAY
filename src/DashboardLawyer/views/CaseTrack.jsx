@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 
 const CaseTrack = () => {
   const user = JSON.parse(localStorage.getItem('user'));
+  const location = useLocation();
   const [cases,setCases] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -22,7 +23,7 @@ const CaseTrack = () => {
       });
       // console.log(cases);
     };
-    func();
+    
   }, []);
 
   const AboutCase = (_id) =>{
@@ -33,7 +34,15 @@ const CaseTrack = () => {
       }
     })
   }
-
+  const handleVideo = (_id) =>{
+    navigate("/call/"+_id, {
+      replace: false,
+      state: {
+        user: user,
+        path: location.pathname
+      },
+    });
+  }
   return (
     <div>
       <h5 className="mb-3">All Cases</h5>
