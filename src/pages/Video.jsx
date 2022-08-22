@@ -10,6 +10,7 @@ var storageRef = firebase.storage().ref();
 const Video = ({
   useClient,
   useMicrophoneAndCameraTracks,
+  useScreenVideoTrack,
   channelName,
   inCall,
   setInCall,
@@ -37,7 +38,12 @@ const Video = ({
   // RTM Global Vars
 
   const { ready, tracks } = useMicrophoneAndCameraTracks();
-
+  const {
+    ready: readyScreen,
+    tracks: trackScreen,
+    error: errorScreen,
+  } = useScreenVideoTrack();
+  console.log(readyScreen, trackScreen, errorScreen);
   useEffect(() => {
     recognition.start();
     recognition.onresult = function (event) {
@@ -92,7 +98,8 @@ const Video = ({
       });
 
       await client.join(appId, name, token, null);
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
+      if (trackScreen) await client.publish(trackScreen);
+      // if (tracks) await client.publish([tracks[0], tracks[1]]);
       setStart(true);
     };
     if (ready && tracks) {
@@ -100,39 +107,12 @@ const Video = ({
       init(channelName);
     }
   }, [channelName, ready, tracks, client, appId, token, users]);
-  const generateReport = async () => {
-    console.log(text);
-    let data = await fetch(`http://localhost:3001/api/summary`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text: text.join(" "),
-      }),
-    });
-    data = await data.json();
-    console.log(data);
-    const file = new Blob([data], {
-      type: "text/plain",
-    });
-    let url;
-    try {
-      var mtRef = await storageRef.child(
-        "notes-" + JSON.parse(localStorage.getItem("user"))._id + ".txt"
-      );
-      await mtRef.put(file);
-      url = await mtRef.getDownloadURL();
-      console.log(url);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+
   return (
     <div>
       {inCall && tracks && (
         <AgoraVideoPlayer
-          videoTrack={tracks[1]}
+          videoTrack={trackScreen}
           style={{
             height: "100vh",
             width: "100vw",
