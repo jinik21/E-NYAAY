@@ -1,77 +1,96 @@
-import { Col, Row } from "reactstrap";
-import SalesChart from "../components/dashboard/SalesChart";
-import Feeds from "../components/dashboard/Feeds";
-import ProjectTables from "../components/dashboard/ProjectTable";
+import React from "react";
+import { useEffect , useState} from "react";
+import axios from "axios";
+import { Row, Col, Table} from "reactstrap";
 
-import Blog from "../components/dashboard/Blog";
-import bg1 from "../assets/images/bg/bg1.jpg";
-import bg2 from "../assets/images/bg/bg2.jpg";
-import bg3 from "../assets/images/bg/bg3.jpg";
-import bg4 from "../assets/images/bg/bg4.jpg";
-
-const BlogData = [
+const FeedData = [
   {
-    image: bg1,
-    title: "This is simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
+    title: "case 1",
+    icon: "bi bi-bell",
+    color: "primary",
+    date: "6 minute ago",
   },
   {
-    image: bg2,
-    title: "Lets be simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
+    title: "case 2",
+    icon: "bi bi-person",
+    color: "info",
+    date: "6 minute ago",
   },
   {
-    image: bg3,
-    title: "Don't Lamp blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
+    title: "case 3",
+    icon: "bi bi-hdd",
+    color: "danger",
+    date: "6 minute ago",
   },
   {
-    image: bg4,
-    title: "Simple is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
+    title: "case 4",
+    icon: "bi bi-bag-check",
+    color: "success",
+    date: "6 minute ago",
+  },
+  {
+    title: "case 5",
+    icon: "bi bi-bell",
+    color: "dark",
+    date: "6 minute ago",
+  },
+  {
+    title: "case 6",
+    icon: "bi bi-hdd",
+    color: "warning",
+    date: "6 minute ago",
   },
 ];
 
 const Starter = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const [cases,setCases] = useState([]);
+  useEffect(() => {
+    const func = async () => {
+      const email = user.email;
+      const token = user.token;
+      console.log(token);
+      console.log(email);
+      const {data} = await axios.get("http://localhost:3001/case/get/"+email,{
+        headers: {
+          "authorization": `Bearer ${token}`,
+        }
+      })
+      console.log(data);
+      setCases((prev) => {
+        return [...prev, ...data.cases]
+      });
+    };
+    func();
+  }, []);
   return (
-    <div>
-      {/***Top Cards***/}
-
-      {/***Sales & Feed***/}
-      <Row>
-        <Col sm="6" lg="6" xl="7" xxl="8">
-          <SalesChart />
+    <div style={{width:"78vw"}}>
+      <Row >
+      <Col lg="12">
+        <Table className="no-wrap mt-3 align-middle" responsive borderless>
+              <thead>
+                <tr>
+                  <th>Case Id</th>
+                  <th>Name of Plantiff</th>
+                  <th>Name of Defendant</th>
+                  <th>Nature Of Complaint</th>
+                  <th>Status of Case</th>
+                </tr>
+              </thead>
+              <tbody>
+              {cases.map((ele, i)=>{
+                return(  
+                  <tr>
+                    <td>{ele._id}</td>
+                    <td>{ele.nameOfPlantiff}</td>
+                    <td>{ele.nameOfDefendant}</td>
+                    <td>{ele.natureOfComplaint}</td>
+                    <td>{ele.status}</td>
+                  </tr>
+              )})}
+              </tbody>
+            </Table>
         </Col>
-        <Col sm="6" lg="6" xl="5" xxl="4">
-          <Feeds />
-        </Col>
-      </Row>
-      {/***Blog Cards***/}
-      <Row>
-        <h2>Current News</h2>
-        {BlogData.map((blg, index) => (
-          <Col sm="6" lg="6" xl="3" key={index}>
-            <Blog
-              image={blg.image}
-              title={blg.title}
-              subtitle={blg.subtitle}
-              text={blg.description}
-              color={blg.btnbg}
-            />
-          </Col>
-        ))}
       </Row>
     </div>
   );
