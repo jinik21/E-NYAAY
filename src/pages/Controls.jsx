@@ -1,4 +1,5 @@
 import React, { useState } from "react"; //useEffect,
+import { useLocation,useNavigate } from "react-router-dom";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import VideocamIcon from "@mui/icons-material/Videocam";
@@ -14,6 +15,8 @@ const Controls = ({
   // generateReport,
 }) => {
   const [trackState, setTrackState] = useState({ video: true, audio: true });
+  const location = useLocation();
+  const navigate = useNavigate();
   const mute = async (type) => {
     if (type === "audio") {
       await tracks[0].setEnabled(!trackState.audio);
@@ -51,6 +54,7 @@ const Controls = ({
         id: sessionId,
       }),
     });
+
     await client.leave();
     client.removeAllListeners();
     // we close the tracks to perform cleanup
@@ -58,11 +62,10 @@ const Controls = ({
     tracks[1].close();
     // setStart(false);
     // setInCall(false);
-    if (JSON.parse(localStorage.getItem("user")).doctor) {
-      history.push(`/doctor-feedback/${sessionId}`);
-    } else {
-      history.push(`/patient-feedback/${sessionId}`);
-    }
+    console.log(location.state.path);
+    navigate(location.state.path, {
+      replace: false,
+    });
   };
 
   return (

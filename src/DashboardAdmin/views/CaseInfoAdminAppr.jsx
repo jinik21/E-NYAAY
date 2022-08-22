@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import ProjectTables from "../components/dashboard/ProjectTable";
 import { Row, Col, Table, Card, CardTitle, CardBody } from "reactstrap";
 import CaseInfo from "../../DashboardLawyer/views/CaseInfo";
 
 const CaseInfoAdminAppr = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
     const [caseInfo, setcaseInfo] = useState({});
     const [case_id, setCaseid] = useState("");
@@ -104,6 +105,16 @@ const CaseInfoAdminAppr = () => {
         } catch (e) {
           console.log(e);
         }
+      }
+      const handleVideo = async(e)=>{
+        e.preventDefault();
+        navigate("/call/"+case_id, {
+          replace: false,
+          state: {
+            user: user,
+            path: location.pathname
+          },
+        });
       }
     return(
         <div>
@@ -308,8 +319,14 @@ const CaseInfoAdminAppr = () => {
                         </button>
                     </div>
                 </div>
-      </div>
-  
+                </div>
+                <div className="col-md-6 mb-4">
+                    <div className="form-outline">
+                        <button onClick={handleVideo} type="button" className="btn btn-warning btn-lg ms-2 b2-color" >
+                            Join Call
+                        </button>
+                    </div>
+                </div>
             </Row>
         </div>
     )

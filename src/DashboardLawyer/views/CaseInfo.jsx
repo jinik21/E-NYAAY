@@ -11,6 +11,7 @@ const CaseInfo = () => {
     const navigate = useNavigate();
     useEffect(() => {
         const func = async () => {
+            console.log(location.pathname);
             const caseid=location.state.id;
             const token = user.token;
             console.log(caseid);
@@ -35,11 +36,11 @@ const CaseInfo = () => {
     }, []);
     const handleVideo = async(e)=>{
       e.preventDefault();
-      const token = user.token;
       navigate("/call/"+case_id, {
         replace: false,
         state: {
-          user: user
+          user: user,
+          path: location.pathname
         },
       });
     }
