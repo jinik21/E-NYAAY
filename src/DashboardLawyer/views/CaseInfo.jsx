@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import ProjectTables from "../components/dashboard/ProjectTable";
 import { Row, Col, Table, Card, CardTitle, CardBody } from "reactstrap";
 
@@ -7,11 +7,14 @@ const CaseInfo = () => {
     const location = useLocation();
     const user = JSON.parse(localStorage.getItem('user'));
     const [caseInfo, setcaseInfo] = useState({});
+    const [case_id, setCaseid] = useState("");
+    const navigate = useNavigate();
     useEffect(() => {
         const func = async () => {
             const caseid=location.state.id;
             const token = user.token;
             console.log(caseid);
+            setCaseid(caseid);
             let data = await fetch(
                 "http://localhost:3001/case/getById?id="+caseid,
                 {
@@ -30,6 +33,16 @@ const CaseInfo = () => {
           };
           func();
     }, []);
+    const handleVideo = async(e)=>{
+      e.preventDefault();
+      const token = user.token;
+      navigate("/call/"+case_id, {
+        replace: false,
+        state: {
+          user: user
+        },
+      });
+    }
     return(
         <div>
             <h1>About case id: {location.state.id}</h1>
@@ -46,7 +59,7 @@ const CaseInfo = () => {
                   <td>
                     <div className="d-flex align-items-center p-2">
                       <div className="ms-3">
-                        <h6 className="mb-0">Judge</h6>
+                        <h6 className="mb-0">{caseInfo && caseInfo.judge && caseInfo.judge.email}</h6>
                         <span className="text-muted"></span>
                       </div>
                     </div>
@@ -186,6 +199,13 @@ const CaseInfo = () => {
           </CardBody>
         </Card>
       </Col>
+      <div className="col-md-6 mb-4">
+          <div className="form-outline">
+            <button onClick={handleVideo} type="button" className="btn btn-warning btn-lg ms-2 b2-color" >
+                            Join Call
+            </button>
+          </div>
+        </div>
     </Row>
         </div>
     )
