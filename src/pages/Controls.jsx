@@ -1,9 +1,10 @@
 import React, { useState } from "react"; //useEffect,
-import { useLocation,useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
+import { createScreenVideoTrack } from "agora-rtc-react";
 
 const Controls = ({
   tracks,
@@ -44,16 +45,16 @@ const Controls = ({
 
   const endSession = async () => {
     // generateReport();
-    await fetch(`http://localhost:3001/api/close_session`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: JSON.parse(localStorage.getItem("user")).email,
-        id: sessionId,
-      }),
-    });
+    // await fetch(`http://localhost:3001/api/close_session`, {
+    //   method: "post",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     email: JSON.parse(localStorage.getItem("user")).email,
+    //     id: sessionId,
+    //   }),
+    // });
 
     await client.leave();
     client.removeAllListeners();
@@ -62,10 +63,17 @@ const Controls = ({
     tracks[1].close();
     // setStart(false);
     // setInCall(false);
-    console.log(location.state.path);
-    navigate(location.state.path, {
+    navigate("/" + location.state.path.split("/")[1] + "/starter", {
       replace: false,
     });
+  };
+
+  const shareScreen = () => {
+    const { ready, tracks, error } = createScreenVideoTrack({
+      encoderConfig: "1080p_1",
+      optimizationMode: "detail",
+    });
+    console.log(tracks);
   };
 
   return (
@@ -155,6 +163,29 @@ const Controls = ({
           }}
         >
           End Session
+        </p>
+      </div>
+      <div
+        style={{
+          height: 40,
+          width: 95,
+          backgroundColor: "tomato",
+          borderRadius: 5,
+          display: "flex",
+        }}
+        onClick={shareScreen}
+      >
+        <p
+          style={{
+            fontSize: 13,
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 7,
+            color: "#fff",
+            cursor: "pointer",
+          }}
+        >
+          Share Screen
         </p>
       </div>
     </div>

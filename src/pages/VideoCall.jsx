@@ -1,16 +1,25 @@
-import { createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
+import {
+  createClient,
+  createMicrophoneAndCameraTracks,
+  createScreenVideoTrack,
+} from "agora-rtc-react";
 import React, { useState, useEffect } from "react";
 import Video from "./Video";
-import {useParams} from 'react-router-dom'
+import { useParams } from "react-router-dom";
 
 const config = { mode: "rtc", codec: "vp8" };
 const appId = "370cc8b63bac46d381f17915984b033d";
 const VideoCall = (props) => {
-  const match = useParams()
-  console.log(match)
+  const match = useParams();
+  console.log(match);
   const { sessionId } = match;
   const useClient = createClient(config);
   const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
+  const useScreenVideoTrack = createScreenVideoTrack({
+    encoderConfig: "1080p_1",
+    // Set the video transmission optimization mode as prioritizing video quality.
+    optimizationMode: "detail",
+  });
   const [inCall, setInCall] = useState(true);
   const [token, setToken] = useState(null);
 
@@ -27,14 +36,15 @@ const VideoCall = (props) => {
     setInCall(true);
   }, [sessionId]);
 
-  console.log({inCall,token})
+  console.log({ inCall, token });
 
   return (
     <div>
-      {inCall  &&token? (
+      {inCall && token ? (
         <div>
           <Video
             useClient={useClient}
+            useScreenVideoTrack={useScreenVideoTrack}
             useMicrophoneAndCameraTracks={useMicrophoneAndCameraTracks}
             appId={appId}
             token={token}
@@ -47,14 +57,14 @@ const VideoCall = (props) => {
         </div>
       ) : (
         <div className="row">
-           <div>
+          <div>
             <button onClick={null} type="button" id="join">
               JOIN
             </button>
             <button onClick={null} type="button" id="leave">
               LEAVE
             </button>
-          </div> 
+          </div>
         </div>
       )}
     </div>
