@@ -35,6 +35,9 @@ import ApproveCases from "./DashboardAdmin/views/approveCases";
 import CaseTrackAdmin from "./DashboardAdmin/views/CaseTrack";
 import NewCases from "./DashboardAdmin/views/newCases";
 import CaseInfo from "./DashboardLawyer/views/CaseInfo";
+import SessionInfo from "./DashboardLawyer/views/SessionInfo";
+import SessionInfoAdmin from "./DashboardAdmin/views/sessionInfoAdmin";
+import SessionInfoJudge from "./DashboardJudge/views/sessionInfoJudge";
 import CaseInfoAdmin from "./DashboardAdmin/views/CaseInfoAdmin";
 import CaseInfoAdminAppr from "./DashboardAdmin/views/CaseInfoAdminAppr";
 import LoginJudgePage from "./pages/LoginPageJudge";
@@ -149,6 +152,10 @@ function App() {
           exact path="/dashboardlawyer/case-info"
           element = {<CaseInfo passable={state}/>}
         />
+        <Route
+          exact path="/dashboardlawyer/session-info"
+          element = {<SessionInfo passable={state}/>}
+        />
       </Route>
       <Route
           exact path = "/dashboardadmin"
@@ -179,6 +186,10 @@ function App() {
           element = {<CaseInfoAdmin passable={state}/>}
         />
         <Route
+          exact path="/dashboardadmin/session-info"
+          element = {<SessionInfoAdmin passable={state}/>}
+        />
+        <Route
           exact path="/dashboardadmin/approved-case-info"
           element = {<CaseInfoAdminAppr passable={state}/>}
         />
@@ -203,6 +214,10 @@ function App() {
         <Route
           exact path = "/dashboardjudge/case-info"
           element = {<CaseInfoJudge/>}
+        />
+         <Route
+          exact path = "/dashboardjudge/session-info"
+          element = {<SessionInfoJudge/>}
         />
       </Route>
       <Route exact path="/block" element={<Blockchain passable={state}/>} />

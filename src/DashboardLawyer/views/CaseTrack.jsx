@@ -23,6 +23,7 @@ const CaseTrack = () => {
       });
       // console.log(cases);
     };
+    func();
     
   }, []);
 

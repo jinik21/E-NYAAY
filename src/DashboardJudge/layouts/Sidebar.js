@@ -6,12 +6,7 @@ const navigation = [
     title: "Dashboard",
     href: "/dashboardjudge/starter",
     icon: "bi bi-speedometer2",
-  },
-  {
-    title: "Case Queries",
-    href: "/dashboardjudge/queries",
-    icon: "bi bi-patch-check",
-  },
+  },  
   {
     title: "Case Track",
     href: "/dashboardjudge/track",
@@ -34,7 +29,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="bg-dark" style={{height:"150vh",width:"35vh"}}>
+    <div className="bg-dark" style={{height:"250vh",width:"35vh"}}>
       <div className="d-flex">
         <Button
           color="white"
