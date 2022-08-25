@@ -85,7 +85,8 @@ const Starter = () => {
                     <td>{ele.nameOfPlantiff}</td>
                     <td>{ele.nameOfDefendant}</td>
                     <td>{ele.natureOfComplaint}</td>
-                    <td>{ele.status}</td>
+                    {ele.status==="VERIFIED"?(<td style={{color:'green'}}>Accepted</td>):
+                (ele.status==="REJECTED"?(<td style={{color:'red'}}>Rejected</td>):(<td style={{color:'#FFAF33'}}>Pending</td>))}
                   </tr>
               )})}
               </tbody>
