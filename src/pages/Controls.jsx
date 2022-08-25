@@ -13,7 +13,7 @@ const Controls = ({
   client,
   sessionId,
   history,
-  // generateReport,
+  shareScreen,
 }) => {
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const location = useLocation();
@@ -66,14 +66,6 @@ const Controls = ({
     navigate("/" + location.state.path.split("/")[1] + "/starter", {
       replace: false,
     });
-  };
-
-  const shareScreen = () => {
-    const { ready, tracks, error } = createScreenVideoTrack({
-      encoderConfig: "1080p_1",
-      optimizationMode: "detail",
-    });
-    console.log(tracks);
   };
 
   return (

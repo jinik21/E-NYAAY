@@ -1,8 +1,4 @@
-import {
-  createClient,
-  createMicrophoneAndCameraTracks,
-  createScreenVideoTrack,
-} from "agora-rtc-react";
+import { createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
 import React, { useState, useEffect } from "react";
 import Video from "./Video";
 import { useParams } from "react-router-dom";
@@ -14,15 +10,11 @@ const VideoCall = (props) => {
   console.log(match);
   const { sessionId } = match;
   const useClient = createClient(config);
+
   const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
-  const useScreenVideoTrack = createScreenVideoTrack({
-    encoderConfig: "1080p_1",
-    // Set the video transmission optimization mode as prioritizing video quality.
-    optimizationMode: "detail",
-  });
+
   const [inCall, setInCall] = useState(true);
   const [token, setToken] = useState(null);
-
   useEffect(() => {
     const init = async () => {
       let data = await fetch(
@@ -44,7 +36,6 @@ const VideoCall = (props) => {
         <div>
           <Video
             useClient={useClient}
-            useScreenVideoTrack={useScreenVideoTrack}
             useMicrophoneAndCameraTracks={useMicrophoneAndCameraTracks}
             appId={appId}
             token={token}

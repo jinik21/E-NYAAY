@@ -1,4 +1,8 @@
-import { AgoraVideoPlayer } from "agora-rtc-react";
+import {
+  AgoraVideoPlayer,
+  createClient,
+  createScreenVideoTrack,
+} from "agora-rtc-react";
 import React, { useEffect, useState } from "react";
 import firebase from "../firebase";
 import Controls from "./Controls";
@@ -7,10 +11,10 @@ import useAgoraRtm from "./useAgoraRtm";
 const clientRTM = AgoraRTM.createInstance("370cc8b63bac46d381f17915984b033d");
 var storageRef = firebase.storage().ref();
 
+const config = { mode: "rtc", codec: "vp8" };
 const Video = ({
   useClient,
   useMicrophoneAndCameraTracks,
-  useScreenVideoTrack,
   channelName,
   inCall,
   setInCall,
@@ -20,15 +24,28 @@ const Video = ({
   history,
 }) => {
   const [users, setUsers] = useState([]);
+  const [shareState, setShareState] = useState(false);
   const [, setStart] = useState(false);
   const [text, setText] = useState("");
   const [displayText, setDisplayText] = useState([""]);
   const client = useClient();
+  const useScreenClient = createClient(config);
+  const shareClient = useScreenClient();
   const { message, sendMessage } = useAgoraRtm(
     channelName,
     sessionId,
     clientRTM
   );
+  const useScreenVideoTrack = createScreenVideoTrack({
+    encoderConfig: "1080p_1",
+    // Set the video transmission optimization mode as prioritizing video quality.
+    optimizationMode: "detail",
+  });
+  const {
+    ready: readyScreen,
+    tracks: trackScreen,
+    error: errorScreen,
+  } = useScreenVideoTrack();
 
   var SpeechRecognition =
     window.webkitSpeechRecognition || window.speechRecognition;
@@ -38,12 +55,7 @@ const Video = ({
   // RTM Global Vars
 
   const { ready, tracks } = useMicrophoneAndCameraTracks();
-  const {
-    ready: readyScreen,
-    tracks: trackScreen,
-    error: errorScreen,
-  } = useScreenVideoTrack();
-  console.log(readyScreen, trackScreen, errorScreen);
+
   useEffect(() => {
     recognition.start();
     recognition.onresult = function (event) {
@@ -98,8 +110,7 @@ const Video = ({
       });
 
       await client.join(appId, name, token, null);
-      if (trackScreen) await client.publish(trackScreen);
-      // if (tracks) await client.publish([tracks[0], tracks[1]]);
+      if (tracks) await client.publish([tracks[0], tracks[1]]);
       setStart(true);
     };
     if (ready && tracks) {
@@ -107,12 +118,62 @@ const Video = ({
       init(channelName);
     }
   }, [channelName, ready, tracks, client, appId, token, users]);
+  // channelName, ready, tracks, client, appId, token, users
+
+  useEffect(() => {
+    const screenInit = async () => {
+      console.log(trackScreen);
+      shareClient.on("user-published", async (user, mediaType) => {
+        await shareClient.subscribe(user, mediaType);
+        console.log("subscribe success");
+        console.log("inside share client", user);
+      });
+      shareClient.on("user-unpublished", async (user, type) => {
+        console.log("unpublished", user, type);
+        setUsers((prevUsers) => {
+          return prevUsers.filter((User) => User.uid !== user.uid);
+        });
+        await shareClient.unpublish();
+      });
+
+      shareClient.on("user-left", async (user) => {
+        console.log("leaving", user);
+        setUsers((prevUsers) => {
+          return prevUsers.filter((User) => User.uid !== user.uid);
+        });
+        await shareClient.unpublish();
+      });
+    };
+    screenInit();
+  }, [trackScreen, shareClient]);
+
+  const shareScreen = async () => {
+    if (shareState || !trackScreen || errorScreen) {
+      console.log("shareClient");
+      await shareClient.leave();
+      setUsers((prevUsers) => {
+        return prevUsers.filter((User) => User.uid !== shareClient.uid);
+      });
+      setShareState(false);
+    } else if (!shareState && readyScreen && trackScreen) {
+      const res = await shareClient.join(appId, channelName, token, null);
+      if (res) {
+        console.log(new Date().getTime(), "joined");
+        console.log(res);
+        setShareState(true);
+        if (trackScreen) {
+          const result = await shareClient.publish(trackScreen);
+          console.log(new Date().getTime(), "published", result);
+        }
+      }
+    }
+  };
 
   return (
     <div>
       {inCall && tracks && (
         <AgoraVideoPlayer
-          videoTrack={trackScreen}
+          videoTrack={tracks[1]}
           style={{
             height: "100vh",
             width: "100vw",
@@ -130,6 +191,7 @@ const Video = ({
               client={client}
               sessionId={sessionId}
               history={history}
+              shareScreen={shareScreen}
               // generateReport={generateReport}
             />
           )}
