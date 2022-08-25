@@ -3,7 +3,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import "./profile.css";
 import React, { useEffect, useState } from "react";
 
-const Profile = () => {
+const ProfileJudge = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [fullname, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -14,9 +14,8 @@ const Profile = () => {
   useEffect(() => {
     const func = async () => {
       const token = user.token;
-      console.log(token);
       let data = await fetch(
-        "http://localhost:3001/lawyer/profile",
+        "http://localhost:3001/judge/profile",
         {
           method: "get",
           headers: {
@@ -30,7 +29,7 @@ const Profile = () => {
       console.log(data);
       setFullName(data.name);
       setPhone(data.phone);
-      setBar(data.barNo);
+      setBar(data.regNo);
       setCity(data.city);
       setstate(data.state);
       setnocases(data.cases.length);
@@ -293,4 +292,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileJudge;

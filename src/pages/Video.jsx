@@ -110,7 +110,8 @@ const Video = ({
       });
 
       await client.join(appId, name, token, null);
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
+      if (trackScreen) await client.publish(trackScreen);
+      // if (tracks) await client.publish([tracks[0], tracks[1]]);
       setStart(true);
     };
     if (ready && tracks) {

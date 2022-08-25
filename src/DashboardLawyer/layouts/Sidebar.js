@@ -13,11 +13,6 @@ const navigation = [
     icon: "bi bi-bell",
   },
   {
-    title: "Case Queries",
-    href: "/dashboardlawyer/queries",
-    icon: "bi bi-patch-check",
-  },
-  {
     title: "Case Track",
     href: "/dashboardlawyer/track",
     icon: "bi bi-hdd-stack",
@@ -59,7 +54,9 @@ const Sidebar = () => {
           {navigation.map((navi, index) => (
             <NavItem key={index} className="sidenav-bg">
               <Link
-              onClick={log}
+              onClick={()=>{
+                console.log("hello")
+              }}
                 to={navi.href}
                 className={
                   location.pathname === navi.href

@@ -4,22 +4,17 @@ import { Link, useLocation } from "react-router-dom";
 const navigation = [
   {
     title: "Dashboard",
-    href: "/dashboardlawyer/starter",
+    href: "/dashboardjudge/starter",
     icon: "bi bi-speedometer2",
-  },
-  {
-    title: "Case Queries",
-    href: "/dashboardlawyer/queries",
-    icon: "bi bi-patch-check",
-  },
+  },  
   {
     title: "Case Track",
-    href: "/dashboardlawyer/track",
+    href: "/dashboardjudge/track",
     icon: "bi bi-hdd-stack",
   },
   {
     title: "Profile",
-    href: "/dashboardlawyer/profile",
+    href: "/dashboardjudge/profile",
     icon: "bi bi-hdd-stack",
   }
 ];
@@ -34,7 +29,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="bg-dark" style={{height:"150vh",width:"35vh"}}>
+    <div className="bg-dark" style={{height:"250vh",width:"35vh"}}>
       <div className="d-flex">
         <Button
           color="white"

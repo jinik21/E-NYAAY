@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import ProjectTables from "../components/dashboard/ProjectTable";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Row, Col, Table, Card, CardTitle, CardBody } from "reactstrap";
 
-const CaseInfo = () => {
+const CaseInfoJudge = () => {
+  const navigate = useNavigate();
     const location = useLocation();
+    const [sessions,setSessions] = useState([]);
     const user = JSON.parse(localStorage.getItem('user'));
     const [caseInfo, setcaseInfo] = useState({});
+    const [case_id, setCaseid] = useState("");
+    const [emailOfJudge, setJudge] = useState("");
     useEffect(() => {
         const func = async () => {
             const caseid=location.state.id;
             const token = user.token;
             console.log(caseid);
+            setCaseid(caseid);
             let data = await fetch(
                 "http://localhost:3001/case/getById?id="+caseid,
                 {
@@ -28,8 +32,57 @@ const CaseInfo = () => {
               setcaseInfo(data.cases)
               console.log(caseInfo)
           };
+          const func1 = async () => {
+            const caseid=location.state.id;
+            const token = user.token;
+            console.log(caseid);
+            let data1 = await fetch(
+                "http://localhost:3001/sessions/get?caseId="+caseid,
+                {
+                  method: "get",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`,
+                    "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
+                  }
+                }
+              );
+              data1 = await data1.json();
+              console.log(data1.sessions);
+              setSessions((prev) => {
+                return [...prev, ...data1.sessions]
+              });
+              console.log(sessions);
+          };
           func();
+          func1();
     }, []);
+    const handleVideo = async(e)=>{
+      e.preventDefault();
+      navigate("/call/"+location.state.id, {
+        replace: false,
+        state: {
+          user: user,
+          path: location.pathname
+        },
+      });
+    }
+    const AboutSession = (ele) =>{
+      console.log(ele);
+      navigate("/dashboardjudge/session-info",{
+        state: {
+          id: ele._id,
+          emailOfPlantiff:ele.emailOfPlantiff,
+          emailOfDefendant:ele.emailOfDefendant,
+          emailOfPlantiffLawyer:ele.emailOfPlantiffLawyer,
+          emailOfDefendantLawyer:ele.emailOfDefendantLawyer,
+          emailOfJudge:ele.emailOfJudge,
+          scheduledDate:ele.scheduledDate,
+          upcoming:ele.upcoming,
+          caseId:ele.caseId,
+        }
+      })
+    }
     return(
         <div>
             <h1>About case id: {location.state.id}</h1>
@@ -46,7 +99,7 @@ const CaseInfo = () => {
                   <td>
                     <div className="d-flex align-items-center p-2">
                       <div className="ms-3">
-                        <h6 className="mb-0">Judge</h6>
+                        <h6 className="mb-0">{caseInfo.emailOfJudge}</h6>
                         <span className="text-muted"></span>
                       </div>
                     </div>
@@ -187,8 +240,41 @@ const CaseInfo = () => {
         </Card>
       </Col>
     </Row>
+    <Row>
+      <h1>Pass Judgement</h1>
+      <div class="mb-3" >
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Judgement"></textarea>
+
+          <button style = {{margin: "10px"}}type="button" className="btn btn-warning btn-lg ms-2 b2-color" >
+                            Submit
+            </button>
+        </div>
+        <h1>Session Info</h1>
+        <div className="row">
+          {sessions.map((ele, i)=>{
+            return <div key={i} className="col-xl-6 col-sm-12 py-2">
+                 <div className="ses-info" onClick={() => AboutSession(ele)}>
+                        <h1><strong>EOD:</strong>  {ele.emailOfDefendant}</h1>
+                        <p><strong>EODL:</strong> {ele.emailOfDefendantLawyer}</p>
+                        <p><strong>EOJ:</strong> {ele.emailOfJudge}</p>
+                        <p><strong>EOP:</strong> {ele.emailOfPlantiff}</p>
+                        <p><strong>EOPL:</strong> {ele.emailOfPlantiffLawyer}</p>
+                        <p><strong>Schedule:</strong>  {ele.scheduledDate}</p>
+                        <p><strong>Session ID:</strong>  {ele._id}</p>
+                        {ele.upcoming===false?(<p style={{color:'#FFAF33'}}>Previous Session</p>):
+                        (
+                          <button onClick={handleVideo} type="button" className="btn  btn-lg ms-2 b1-color" >
+                                          Join
+                          </button>)}
+                        {/* <button onClick={Accept}>Accept</button>
+                        <button onClick={Reject}>Reject</button> */}
+                      </div>
+             </div>
+          })}    
+      </div>
+    </Row>
         </div>
     )
 }
 
-export default CaseInfo;
+export default CaseInfoJudge;

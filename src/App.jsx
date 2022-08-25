@@ -35,11 +35,18 @@ import ApproveCases from "./DashboardAdmin/views/approveCases";
 import CaseTrackAdmin from "./DashboardAdmin/views/CaseTrack";
 import NewCases from "./DashboardAdmin/views/newCases";
 import CaseInfo from "./DashboardLawyer/views/CaseInfo";
+import SessionInfo from "./DashboardLawyer/views/SessionInfo";
+import SessionInfoAdmin from "./DashboardAdmin/views/sessionInfoAdmin";
+import SessionInfoJudge from "./DashboardJudge/views/sessionInfoJudge";
 import CaseInfoAdmin from "./DashboardAdmin/views/CaseInfoAdmin";
 import CaseInfoAdminAppr from "./DashboardAdmin/views/CaseInfoAdminAppr";
 import LoginJudgePage from "./pages/LoginPageJudge";
 import JudgeRegisterPage from "./pages/JudgeRegisterPage";
 import StarterJudge from "./DashboardJudge/views/Starter";
+import CaseQueriesJudge from "./DashboardJudge/views/CaseQueries";
+import CaseTrackJudge from "./DashboardJudge/views/CaseTrack";
+import ProfileJudge from "./DashboardJudge/views/profile";
+import CaseInfoJudge from "./DashboardJudge/views/CaseInfo";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -145,6 +152,10 @@ function App() {
           exact path="/dashboardlawyer/case-info"
           element = {<CaseInfo passable={state}/>}
         />
+        <Route
+          exact path="/dashboardlawyer/session-info"
+          element = {<SessionInfo passable={state}/>}
+        />
       </Route>
       <Route
           exact path = "/dashboardadmin"
@@ -175,6 +186,10 @@ function App() {
           element = {<CaseInfoAdmin passable={state}/>}
         />
         <Route
+          exact path="/dashboardadmin/session-info"
+          element = {<SessionInfoAdmin passable={state}/>}
+        />
+        <Route
           exact path="/dashboardadmin/approved-case-info"
           element = {<CaseInfoAdminAppr passable={state}/>}
         />
@@ -183,6 +198,26 @@ function App() {
         <Route
           exact path = "/dashboardjudge/starter"
           element = {<StarterJudge/>}
+        />
+        <Route
+          exact path = "/dashboardjudge/queries"
+          element = {<CaseQueriesJudge/>}
+        />
+        <Route
+          exact path = "/dashboardjudge/track"
+          element = {<CaseTrackJudge/>}
+        />
+        <Route
+          exact path = "/dashboardjudge/profile"
+          element = {<ProfileJudge/>}
+        />
+        <Route
+          exact path = "/dashboardjudge/case-info"
+          element = {<CaseInfoJudge/>}
+        />
+         <Route
+          exact path = "/dashboardjudge/session-info"
+          element = {<SessionInfoJudge/>}
         />
       </Route>
       <Route exact path="/block" element={<Blockchain passable={state}/>} />

@@ -8,7 +8,6 @@ import { useEffect } from "react";
 const DashboardJudge = ({ passable }) => {
   let location = useLocation();
   console.log(location);
-  console.log(passable);
   // const { account, court } = passable;
   // useEffect(() => {
   //   const getUserInformation = async () => {
