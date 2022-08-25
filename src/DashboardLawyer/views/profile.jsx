@@ -1,5 +1,3 @@
-import CreateIcon from "@mui/icons-material/Create";
-import DoneIcon from "@mui/icons-material/Done";
 import "./profile.css";
 import React, { useEffect, useState } from "react";
 

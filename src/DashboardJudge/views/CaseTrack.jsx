@@ -12,14 +12,14 @@ const CaseTrackJudge = () => {
       const token = user.token;
       console.log(token);
       console.log(email);
-      const {data} = await axios.get("http://localhost:3001/case/getByStatus?status="+"VERIFIED",{
+      const {data} = await axios.get("http://localhost:3001/case/getByJudge?judgeId="+email,{
         headers: {
           "authorization": `Bearer ${token}`,
         }
       })
       console.log(data);
       setCases((prev) => {
-        return [...prev, ...data.casesByStatus]
+        return [...prev, ...data.cases]
       });
       // console.log(cases);
     };

@@ -3,45 +3,6 @@ import { useEffect , useState} from "react";
 import axios from "axios";
 import { Row, Col, Table} from "reactstrap";
 
-const FeedData = [
-  {
-    title: "case 1",
-    icon: "bi bi-bell",
-    color: "primary",
-    date: "6 minute ago",
-  },
-  {
-    title: "case 2",
-    icon: "bi bi-person",
-    color: "info",
-    date: "6 minute ago",
-  },
-  {
-    title: "case 3",
-    icon: "bi bi-hdd",
-    color: "danger",
-    date: "6 minute ago",
-  },
-  {
-    title: "case 4",
-    icon: "bi bi-bag-check",
-    color: "success",
-    date: "6 minute ago",
-  },
-  {
-    title: "case 5",
-    icon: "bi bi-bell",
-    color: "dark",
-    date: "6 minute ago",
-  },
-  {
-    title: "case 6",
-    icon: "bi bi-hdd",
-    color: "warning",
-    date: "6 minute ago",
-  },
-];
-
 const Starter = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [cases,setCases] = useState([]);

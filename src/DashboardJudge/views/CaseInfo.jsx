@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ProjectTables from "../components/dashboard/ProjectTable";
 import { Row, Col, Table, Card, CardTitle, CardBody } from "reactstrap";
 
 const CaseInfoJudge = () => {
@@ -10,6 +9,7 @@ const CaseInfoJudge = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [caseInfo, setcaseInfo] = useState({});
     const [case_id, setCaseid] = useState("");
+    const [emailOfJudge, setJudge] = useState("");
     useEffect(() => {
         const func = async () => {
             const caseid=location.state.id;
@@ -99,7 +99,7 @@ const CaseInfoJudge = () => {
                   <td>
                     <div className="d-flex align-items-center p-2">
                       <div className="ms-3">
-                        <h6 className="mb-0">Judge</h6>
+                        <h6 className="mb-0">{caseInfo.emailOfJudge}</h6>
                         <span className="text-muted"></span>
                       </div>
                     </div>

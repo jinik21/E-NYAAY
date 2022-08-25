@@ -7,8 +7,6 @@ import {
   styled,
   TextField,
   Typography,
-  Select,
-  MenuItem
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';

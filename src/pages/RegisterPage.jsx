@@ -7,16 +7,10 @@ import {
   styled,
   TextField,
   Typography,
-  Select,
-  MenuItem
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import PageHeroImage from '../components/PageHeroImage';
-import API from '../config/axios';
-import { saveUser } from '../utils/user';
-import "../models/states"
-import Axios from 'axios';
 
 const Container = styled(Grid)(({ theme }) => ({
   height: '100vh',
@@ -70,16 +64,6 @@ function RegisterPage() {
     setValues({ ...values, submitButtonDisable: true });
     e.preventDefault();
     try {
-    //   const result = await Axios.post('http://localhost:3001/lawyer/signup',{
-    //     name: values.name,
-    //     email: values.email,
-    //     password: values.password,
-    //     phone: values.phone,
-    //     barNo: values.barNo,
-    //     state:values.state,
-    //     city:values.city,
-    //   })
-    //   console.log(result);
       fetch("http://localhost:3001/lawyer/signup", {
       method: "post",
       headers: { "Content-type": "application/json" },
