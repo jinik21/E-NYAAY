@@ -400,6 +400,7 @@ const CaseInfo = () => {
                       onClick={handleVideo}
                       type="button"
                       className="btn  btn-lg ms-2 b1-color"
+                      style={{zIndex: 100}}
                     >
                       Join
                     </button>
