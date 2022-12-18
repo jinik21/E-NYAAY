@@ -4,7 +4,18 @@ import { Row, Col, Table, Card, CardTitle, CardBody } from "reactstrap";
 
 const SessionInfo = () => {
     const location = useLocation();
-    
+    const navigate = useNavigate();
+    const handleApprove = async(e)=>{
+      e.preventDefault();
+      navigate("/dashboardlawyer/session-info/recommendations", {
+        replace: false,
+        state: {
+          // user: user,
+          // email: values.email,
+          // password: values.password
+        },
+      });
+    }
     return(
         <div>
             <h1>About Session id: {location.state.id}</h1>
@@ -111,6 +122,29 @@ const SessionInfo = () => {
             </Table>
           </CardBody>
         </Card>
+      </Col>
+      <Col lg="12">
+      <Table className="no-wrap mt-3 align-middle" responsive borderless>
+            <thead>
+              <tr>
+                <th>Recommendations</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr className="border-top">
+                  <td>
+                    <div className="d-flex align-items-center p-2">
+                      <div className="ms-3">
+                            <button onClick={handleApprove} type="button" className="btn btn-success btn-lg ms-2 b2-color" >
+                                Get Recommendations
+                            </button>
+                        <span className="text-muted"></span>
+                      </div>
+                    </div>
+                </td>
+                </tr>
+            </tbody>
+          </Table>
       </Col>
     </Row>
         </div>

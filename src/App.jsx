@@ -20,6 +20,7 @@ import StarterLawyer from "./DashboardLawyer/views/Starter";
 import StarterAdmin from "./DashboardAdmin/views/Starter";
 import SubmitCase from "./DashboardLawyer/views/SubmitCase";
 import CaseLink from "./DashboardLawyer/views/CaseLink";
+import Recommendations from "./DashboardLawyer/views/recommendations";
 import CaseQueries from "./DashboardLawyer/views/CaseQueries";
 import CaseTrack from "./DashboardLawyer/views/CaseTrack";
 import AboutLawyer from "./DashboardLawyer/views/About";
@@ -155,6 +156,10 @@ function App() {
         <Route
           exact path="/dashboardlawyer/session-info"
           element = {<SessionInfo passable={state}/>}
+        />
+        <Route
+          exact path="/dashboardlawyer/session-info/recommendations"
+          element = {<Recommendations passable={state}/>}
         />
       </Route>
       <Route
