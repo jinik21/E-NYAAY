@@ -1,4 +1,4 @@
-import { createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
+import { createClient, createCameraVideoTrack } from "agora-rtc-react";
 import React, { useState, useEffect } from "react";
 import Video from "./Video";
 import { useParams } from "react-router-dom";
@@ -11,7 +11,9 @@ const VideoCall = (props) => {
   const { sessionId } = match;
   const useClient = createClient(config);
 
-  const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
+  // const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
+
+  const useCameraTrack = createCameraVideoTrack();
 
   const [inCall, setInCall] = useState(true);
   const [token, setToken] = useState(null);
@@ -36,7 +38,7 @@ const VideoCall = (props) => {
         <div>
           <Video
             useClient={useClient}
-            useMicrophoneAndCameraTracks={useMicrophoneAndCameraTracks}
+            useCameraTrack={useCameraTrack}
             appId={appId}
             token={token}
             inCall={inCall}
