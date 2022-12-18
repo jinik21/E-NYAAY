@@ -8,13 +8,18 @@ import firebase from "../firebase";
 import Controls from "./Controls";
 import AgoraRTM from "agora-rtm-sdk";
 import useAgoraRtm from "./useAgoraRtm";
+import { summarization_example } from "../utils/user";
+const {
+  TextAnalyticsClient,
+  AzureKeyCredential,
+} = require("@azure/ai-text-analytics");
 const clientRTM = AgoraRTM.createInstance("370cc8b63bac46d381f17915984b033d");
 var storageRef = firebase.storage().ref();
 
 const config = { mode: "rtc", codec: "vp8" };
 const Video = ({
   useClient,
-  useMicrophoneAndCameraTracks,
+  useCameraTrack,
   channelName,
   inCall,
   setInCall,
@@ -24,52 +29,44 @@ const Video = ({
   history,
 }) => {
   const [users, setUsers] = useState([]);
-  const [shareState, setShareState] = useState(false);
   const [, setStart] = useState(false);
   const [text, setText] = useState("");
   const [displayText, setDisplayText] = useState([""]);
   const client = useClient();
-  const useScreenClient = createClient(config);
-  const shareClient = useScreenClient();
   const { message, sendMessage } = useAgoraRtm(
     channelName,
     sessionId,
     clientRTM
   );
-  const useScreenVideoTrack = createScreenVideoTrack({
-    encoderConfig: "1080p_1",
-    // Set the video transmission optimization mode as prioritizing video quality.
-    optimizationMode: "detail",
-  });
-  const {
-    ready: readyScreen,
-    tracks: trackScreen,
-    error: errorScreen,
-  } = useScreenVideoTrack();
-
   var SpeechRecognition =
     window.webkitSpeechRecognition || window.speechRecognition;
   var recognition = new SpeechRecognition();
-  recognition.interimResults = false;
+  recognition.interimResults = true;
   recognition.continuous = true;
+  recognition.lang = "en-US";
   // RTM Global Vars
 
-  const { ready, tracks } = useMicrophoneAndCameraTracks();
+  const { ready, track } = useCameraTrack();
+
+  const key = "7e8e3a179a7e452bab09012204016883";
+  const endpoint = "https://e-nyaaystt.cognitiveservices.azure.com/";
+  // Authenticate the client with your key and endpoint
+  const textAnalyticsClient = new TextAnalyticsClient(
+    endpoint,
+    new AzureKeyCredential(key)
+  );
 
   useEffect(() => {
     recognition.start();
     recognition.onresult = function (event) {
-      var current = event.resultIndex;
-      var transcript = event.results[current][0].transcript;
-      // setText(transcript)
+      const transcript = Array.from(event.results)
+        .map((result) => result[0])
+        .map((result) => result.transcript)
+        .join(" ");
       console.log(transcript);
-      setText((prev) => {
-        return [...prev, transcript];
+      summarization_example(textAnalyticsClient).catch((err) => {
+        console.error("The sample encountered an error:", err);
       });
-      setDisplayText((prev) => {
-        return [...prev, transcript];
-      });
-      sendMessage(transcript);
     };
   }, []);
 
@@ -80,7 +77,7 @@ const Video = ({
         console.log("subscribe success");
         if (mediaType === "video") {
           setUsers((prevUsers) => {
-            return [user];
+            return [...prevUsers, user];
           });
           console.log(users);
         }
@@ -110,71 +107,21 @@ const Video = ({
       });
 
       await client.join(appId, name, token, null);
-      if (trackScreen) await client.publish(trackScreen);
-      // if (tracks) await client.publish([tracks[0], tracks[1]]);
+      if (track) await client.publish([track]);
       setStart(true);
     };
-    if (ready && tracks) {
+    if (ready && track) {
       console.log("init ready");
       init(channelName);
     }
-  }, [channelName, ready, tracks, client, appId, token, users]);
+  }, [channelName, ready, track, client, appId, token, users]);
   // channelName, ready, tracks, client, appId, token, users
-
-  useEffect(() => {
-    const screenInit = async () => {
-      console.log(trackScreen);
-      shareClient.on("user-published", async (user, mediaType) => {
-        await shareClient.subscribe(user, mediaType);
-        console.log("subscribe success");
-        console.log("inside share client", user);
-      });
-      shareClient.on("user-unpublished", async (user, type) => {
-        console.log("unpublished", user, type);
-        setUsers((prevUsers) => {
-          return prevUsers.filter((User) => User.uid !== user.uid);
-        });
-        await shareClient.unpublish();
-      });
-
-      shareClient.on("user-left", async (user) => {
-        console.log("leaving", user);
-        setUsers((prevUsers) => {
-          return prevUsers.filter((User) => User.uid !== user.uid);
-        });
-        await shareClient.unpublish();
-      });
-    };
-    screenInit();
-  }, [trackScreen, shareClient]);
-
-  const shareScreen = async () => {
-    if (shareState || !trackScreen || errorScreen) {
-      console.log("shareClient");
-      await shareClient.leave();
-      setUsers((prevUsers) => {
-        return prevUsers.filter((User) => User.uid !== shareClient.uid);
-      });
-      setShareState(false);
-    } else if (!shareState && readyScreen && trackScreen) {
-      const res = await shareClient.join(appId, channelName, token, null);
-      if (res) {
-        console.log(new Date().getTime(), "joined");
-        console.log(res);
-        setShareState(true);
-        if (trackScreen) {
-          const result = await shareClient.publish(trackScreen);
-          console.log(new Date().getTime(), "published", result);
-        }
-      }
-    }
-  };
 
   return (
     <div>
-      {inCall && tracks && (
+      {inCall && track && (
         <AgoraVideoPlayer
-          videoTrack={tracks[1]}
+          videoTrack={track}
           style={{
             height: "100vh",
             width: "100vw",
@@ -184,15 +131,14 @@ const Video = ({
             left: 0,
           }}
         >
-          {ready && tracks && (
+          {ready && track && (
             <Controls
-              tracks={tracks}
+              track={track}
               setStart={setStart}
               setInCall={setInCall}
               client={client}
               sessionId={sessionId}
               history={history}
-              shareScreen={shareScreen}
               // generateReport={generateReport}
             />
           )}

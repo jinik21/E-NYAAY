@@ -7,25 +7,24 @@ import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import { createScreenVideoTrack } from "agora-rtc-react";
 
 const Controls = ({
-  tracks,
+  track,
   setStart,
   setInCall,
   client,
   sessionId,
   history,
-  shareScreen,
 }) => {
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const location = useLocation();
   const navigate = useNavigate();
   const mute = async (type) => {
     if (type === "audio") {
-      await tracks[0].setEnabled(!trackState.audio);
-      setTrackState((ps) => {
-        return { ...ps, audio: !ps.audio };
-      });
+      // await tracks[0].setEnabled(!trackState.audio);
+      // setTrackState((ps) => {
+      //   return { ...ps, audio: !ps.audio };
+      // });
     } else if (type === "video") {
-      await tracks[1].setEnabled(!trackState.video);
+      await track.setEnabled(!trackState.video);
       setTrackState((ps) => {
         return { ...ps, video: !ps.video };
       });
@@ -59,8 +58,7 @@ const Controls = ({
     await client.leave();
     client.removeAllListeners();
     // we close the tracks to perform cleanup
-    tracks[0].close();
-    tracks[1].close();
+    track.close();
     // setStart(false);
     // setInCall(false);
     navigate("/" + location.state.path.split("/")[1] + "/starter", {
@@ -165,7 +163,6 @@ const Controls = ({
           borderRadius: 5,
           display: "flex",
         }}
-        onClick={shareScreen}
       >
         <p
           style={{
